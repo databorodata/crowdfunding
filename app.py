@@ -28,6 +28,18 @@ def create_project():
         return str(e)
 
 
+
+@app.route("/projects/<id_>", methods=["DELETE"])
+def delete_project(id_):
+    project = Project.query.get_or_404(id_)
+    try:
+        db.session.delete(project)
+        db.session.commit()
+    except Exception as e:
+        return str(e)
+    return ''
+
+
 @app.route("/projects/<id_>", methods=["GET"])
 def get_project_by_id(id_):
     try:
