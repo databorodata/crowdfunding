@@ -19,9 +19,6 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
-
-
-
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -34,10 +31,12 @@ def hello():
 
 
 @app.route("/projects", methods=["POST"])
+@login_required
 def create_project():
     data = request.get_json()
     try:
-        project = Project(name=data["name"])
+        user_id = current_user.get_id()
+        project = Project(name=data["name"], author=user_id)
         db.session.add(project)
         db.session.commit()
         return jsonify(project.serialize())
@@ -47,6 +46,7 @@ def create_project():
 
 
 @app.route("/projects/<id_>", methods=["DELETE"])
+@login_required
 def delete_project(id_):
     project = Project.query.get_or_404(id_)
     try:
@@ -67,6 +67,7 @@ def get_project_by_id(id_):
 
 
 @app.route("/projects/<id_>", methods=["PUT"])
+@login_required
 def edit_project(id_):
     data = request.get_json()
     try:

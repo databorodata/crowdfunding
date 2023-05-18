@@ -12,9 +12,11 @@ class Project(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String())
+    author = db.Column(db.Integer, nullable=False)
 
-    def __init__(self, name: str) -> None:
+    def __init__(self, name: str, author: int) -> None:
         self.name = name
+        self.author = author
 
     def __repr__(self) -> str:
         return f"<id {self.id}>"
@@ -23,6 +25,7 @@ class Project(db.Model):
         return {
             'id': self.id,
             'name': self.name,
+            'author': self.author
         }
 
 class User(db.Model, UserMixin):
