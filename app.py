@@ -1,11 +1,11 @@
 from flask import Flask, request, jsonify, render_template, url_for, redirect
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
-from flask_wtf import FlaskForm
+from flask_wtf import FlaskForm, Form
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import InputRequired, Length, ValidationError
 from flask_bcrypt import Bcrypt
 
-from models import db, Project, User, RegisterForm, LoginForm
+from models import db, Project, User, RegisterForm, LoginForm, SelectInfo, AuthorForm, ParticipantForm, AuthorInfo
 
 import os
 
@@ -99,6 +99,7 @@ def home():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
+
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         if user:
@@ -111,7 +112,46 @@ def login():
 @app.route('/dashboard', methods=['GET', 'POST'])
 @login_required
 def dashboard():
-    return render_template('dashboard.html')
+    form = SelectInfo()
+
+    if form.validate_on_submit():
+        if form.authorinfo.data:
+            return redirect(url_for('authorform'))
+        elif form.partinfo.data:
+            return redirect(url_for('partform'))
+
+    return render_template('dashboard.html', form=form)
+
+
+
+@app.route('/authorform', methods=['GET', 'POST'])
+@login_required
+#new_user = User(username=form.username.data, password=hashed_password)
+def authorform():
+    form = AuthorForm()
+    if form.validate_on_submit():
+        user_id = current_user.get_id()
+        newinfo = AuthorInfo(about_me=form.about_me.data, my_goal=form.my_goal.data, author_id=user_id)
+        #authorinfo = AuthorForm(about_me=data["about_me"], my_goal=data["my_goal"], author_id=user_id)
+        db.session.add(newinfo)
+        db.session.commit()
+        return redirect(url_for('dashboard'))
+
+    return render_template('authorform.html', form=form)
+
+
+@app.route('/partform', methods=['GET', 'POST'])
+@login_required
+def partform():
+    form = ParticipantForm()
+    if form.validate_on_submit():
+        user_id = current_user.get_id()
+        newpartinfo = AuthorForm(my_skills=data["about_me"], my_experience=data["my_goal"], participant_id=user_id)
+        db.session.add(newpartinfo)
+        db.session.commit()
+        return redirect(url_for('dashboard'))
+
+    return render_template('authorform.html', form=form)
 
 
 @app.route('/logout', methods=['GET', 'POST'])

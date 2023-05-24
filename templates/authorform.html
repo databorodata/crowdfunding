@@ -13,12 +13,12 @@
 
     <form method="POST" action="">
         {{ form.hidden_tag() }}
-        {{ form.test_field }}
-        {{ form.authorinfo }}
-        {{ form.partinfo }}
+        {{ form.about_me }}
+        {{ form.my_goal }}
+        {{ form.submit }}
     </form>
-
-    <a href="{{url_for('logout')}}">Press here to logout</a>
+    
+    <a href="{{url_for('dashboard')}}">Press here to return</a>
 </body>
 
 </html>
