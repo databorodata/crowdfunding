@@ -9,16 +9,16 @@
 </head>
 
 <body>
-    <h1>Hello you are logged in.</h1>
+    <h1>You're in your personal account</h1>
 
     <form method="POST" action="">
         {{ form.hidden_tag() }}
-        {{ form.test_field }}
         {{ form.authorinfo }}
         {{ form.partinfo }}
+        {{ form.newproject }}
     </form>
 
-    <a href="{{url_for('logout')}}">Press here to logout</a>
+    <a href="{{url_for('logout')}}">Log out of your personal account</a>
 </body>
 
 </html>

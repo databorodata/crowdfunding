@@ -1,11 +1,9 @@
 from flask import Flask, request, jsonify, render_template, url_for, redirect
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
-from flask_wtf import FlaskForm, Form
-from wtforms import StringField, PasswordField, SubmitField
-from wtforms.validators import InputRequired, Length, ValidationError
 from flask_bcrypt import Bcrypt
 
-from models import db, Project, User, RegisterForm, LoginForm, SelectInfo, AuthorForm, ParticipantForm, AuthorInfo
+from models import db, Project, User, AuthorInfo, ParticipantInfo
+from form import HomeForm, RegisterForm, LoginForm, AuthorForm, ParticipantForm, SelectForm
 
 import os
 
@@ -25,9 +23,18 @@ def load_user(user_id):
 
 db.init_app(app)
 
-@app.route("/")
+
+@app.route('/', methods=['GET', 'POST'])
 def hello():
-    return "Hello DevOps!"
+    form = HomeForm()
+
+    if form.validate_on_submit():
+        if form.registration.data:
+            return redirect(url_for('register'))
+        elif form.authentication.data:
+            return redirect(url_for('login'))
+
+    return render_template('home.html', form=form)
 
 
 @app.route("/projects", methods=["POST"])
@@ -42,7 +49,6 @@ def create_project():
         return jsonify(project.serialize())
     except Exception as e:
         return str(e)
-
 
 
 @app.route("/projects/<id_>", methods=["DELETE"])
@@ -88,12 +94,18 @@ def list_projects():
         return str(e)
 
 
+@ app.route('/register', methods=['GET', 'POST'])
+def register():
+    form = RegisterForm()
 
+    if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        new_user = User(username=form.username.data, password=hashed_password)
+        db.session.add(new_user)
+        db.session.commit()
+        return redirect(url_for('login'))
 
-
-@app.route('/')
-def home():
-    return render_template('home.html')
+    return render_template('register.html', form=form)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -109,30 +121,41 @@ def login():
     return render_template('login.html', form=form)
 
 
+@app.route('/logout', methods=['GET', 'POST'])
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
+
+
 @app.route('/dashboard', methods=['GET', 'POST'])
 @login_required
 def dashboard():
-    form = SelectInfo()
+    form = SelectForm()
 
     if form.validate_on_submit():
         if form.authorinfo.data:
             return redirect(url_for('authorform'))
         elif form.partinfo.data:
             return redirect(url_for('partform'))
+        elif form.newproject.data:
+            return redirect(url_for('newproject'))
 
     return render_template('dashboard.html', form=form)
 
 
+@app.route('/newproject', methods=['GET', 'POST'])
+@login_required
+def newproject():
+    return render_template('newproject.html')
 
 @app.route('/authorform', methods=['GET', 'POST'])
 @login_required
-#new_user = User(username=form.username.data, password=hashed_password)
 def authorform():
     form = AuthorForm()
     if form.validate_on_submit():
         user_id = current_user.get_id()
         newinfo = AuthorInfo(about_me=form.about_me.data, my_goal=form.my_goal.data, author_id=user_id)
-        #authorinfo = AuthorForm(about_me=data["about_me"], my_goal=data["my_goal"], author_id=user_id)
         db.session.add(newinfo)
         db.session.commit()
         return redirect(url_for('dashboard'))
@@ -146,34 +169,12 @@ def partform():
     form = ParticipantForm()
     if form.validate_on_submit():
         user_id = current_user.get_id()
-        newpartinfo = AuthorForm(my_skills=data["about_me"], my_experience=data["my_goal"], participant_id=user_id)
-        db.session.add(newpartinfo)
+        newinfo = ParticipantInfo(my_skills=form.my_skills.data, my_experience=form.my_experience.data, author_id=user_id)
+        db.session.add(newinfo)
         db.session.commit()
         return redirect(url_for('dashboard'))
 
     return render_template('authorform.html', form=form)
-
-
-@app.route('/logout', methods=['GET', 'POST'])
-@login_required
-def logout():
-    logout_user()
-    return redirect(url_for('login'))
-
-
-@ app.route('/register', methods=['GET', 'POST'])
-def register():
-    form = RegisterForm()
-
-    if form.validate_on_submit():
-        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        new_user = User(username=form.username.data, password=hashed_password)
-        db.session.add(new_user)
-        db.session.commit()
-        return redirect(url_for('login'))
-
-    return render_template('register.html', form=form)
-
 
 
 if __name__ == '__main__':
