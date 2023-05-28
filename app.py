@@ -3,7 +3,7 @@ from flask_login import UserMixin, login_user, LoginManager, login_required, log
 from flask_bcrypt import Bcrypt
 
 from models import db, Project, User, AuthorInfo, ParticipantInfo
-from form import HomeForm, RegisterForm, LoginForm, AuthorForm, ParticipantForm, SelectForm
+from form import HomeForm, RegisterForm, LoginForm, AuthorForm, ParticipantForm, SelectForm, NewProject
 
 import os
 
@@ -37,18 +37,63 @@ def hello():
     return render_template('home.html', form=form)
 
 
-@app.route("/projects", methods=["POST"])
+# @app.route("/projects", methods=["POST"])
+# @login_required
+# def create_project():
+#     data = request.get_json()
+#     try:
+#         user_id = current_user.get_id()
+#         project = Project(name=data["name"], author=user_id)
+#         db.session.add(project)
+#         db.session.commit()
+#         return jsonify(project.serialize())
+#     except Exception as e:
+#         return str(e)
+
+
+@app.route("/newproject", methods=["GET", "POST"])
 @login_required
 def create_project():
-    data = request.get_json()
-    try:
-        user_id = current_user.get_id()
-        project = Project(name=data["name"], author=user_id)
+    form = NewProject()
+    user_id = current_user.get_id()
+    if form.validate_on_submit():
+        follower = form.team_project.follower.data
+        salary_follower = form.team_project.salary_follower.data
+        copyrighter = form.team_project.copyrighter.data
+        salary_copyrighter = form.team_project.salary_copyrighter.data
+        contenteditor = form.team_project.contenteditor.data
+        salary_contenteditor = form.team_project.salary_contenteditor.data
+
+        # if (follower and not salary_follower) or \
+        #     (copyrighter and not salary_copyrighter) or \
+        #     (contenteditor and not contenteditor_salary):
+        #     return None
+        #
+        # if (salary_follower and not follower) or \
+        #     (salary_copyrighter and not copyrighter) or \
+        #     (salary_contenteditor and not contenteditor):
+        #     return None
+
+        project = Project(
+            name_blog=form.name_blog.data,
+            name_product=form.support_product.name_product.data,
+            product_quantity=form.support_product.product_quantity.data,
+            price_author=form.support_product.price_author.data,
+            price_part=form.support_product.price_part.data,
+
+            follower=follower, salary_follower=salary_follower,
+            copyrighter=copyrighter, salary_copyrighter=salary_copyrighter,
+            contenteditor=contenteditor, salary_contenteditor=salary_contenteditor,
+
+            author_id=user_id
+        )
+
         db.session.add(project)
         db.session.commit()
-        return jsonify(project.serialize())
-    except Exception as e:
-        return str(e)
+        return redirect(url_for('newproject'))
+
+    return render_template('newproject.html', form=form)
+
 
 
 @app.route("/projects/<id_>", methods=["DELETE"])
