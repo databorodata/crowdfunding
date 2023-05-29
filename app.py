@@ -64,16 +64,6 @@ def create_project():
         contenteditor = form.team_project.contenteditor.data
         salary_contenteditor = form.team_project.salary_contenteditor.data
 
-        # if (follower and not salary_follower) or \
-        #     (copyrighter and not salary_copyrighter) or \
-        #     (contenteditor and not contenteditor_salary):
-        #     return None
-        #
-        # if (salary_follower and not follower) or \
-        #     (salary_copyrighter and not copyrighter) or \
-        #     (salary_contenteditor and not contenteditor):
-        #     return None
-
         project = Project(
             name_blog=form.name_blog.data,
             name_product=form.support_product.name_product.data,
@@ -214,12 +204,18 @@ def partform():
     form = ParticipantForm()
     if form.validate_on_submit():
         user_id = current_user.get_id()
-        newinfo = ParticipantInfo(my_skills=form.my_skills.data, my_experience=form.my_experience.data, author_id=user_id)
+        copyrighter_, contenteditor_ = False, False
+        profession = form.profession.data["prof"]
+        for p in profession:
+            if p == "copyrighter": copyrighter_ = True
+            elif p == "contenteditor": contenteditor_ = True
+        newinfo = ParticipantInfo(my_skills=form.my_skills.data, my_experience=form.my_experience.data,
+                                  copyrighter=copyrighter_, contenteditor=contenteditor_, part_id=user_id)
         db.session.add(newinfo)
         db.session.commit()
         return redirect(url_for('dashboard'))
 
-    return render_template('authorform.html', form=form)
+    return render_template('partform.html', form=form)
 
 
 if __name__ == '__main__':

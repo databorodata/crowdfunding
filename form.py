@@ -1,7 +1,7 @@
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 from flask_wtf import FlaskForm, Form
 from wtforms.validators import InputRequired, Length, ValidationError, NumberRange
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, IntegerField, FormField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, IntegerField, FormField, SelectMultipleField
 from models import User
 
 
@@ -105,8 +105,6 @@ class TeamProject(FlaskForm):
     #     if field.data and not self.salary_follower.data:
     #         raise ValidationError("Follower salary should be filled")
 
-
-
     # def validate(self, **kwargs):
     #     print('3axodut')
     #     if not super(TeamProject, self).validate(**kwargs):
@@ -133,23 +131,6 @@ class TeamProject(FlaskForm):
     #     return True
 
 
-
-# class FirewallRule(Form)
-#     src_ip = StringField('Source IP', validators=[Optional(), IPAddress()])
-#     dst_ip = StringField('Destination IP', validators=[Optional(), IPAddress()])
-#
-#     def validate(self):
-#         if not super(FirewallRule, self).validate():
-#             return False
-#         if not self.src_ip.data and not self.dst_ip.data:
-#             msg = 'At least one of Source and Destination IP must be set'
-#             self.src_ip.errors.append(msg)
-#             self.dst_ip.errors.append(msg)
-#             return False
-#         return True
-
-
-
 class NewProject(FlaskForm):
 
     name_blog = StringField(validators=[
@@ -159,8 +140,9 @@ class NewProject(FlaskForm):
     submit = SubmitField('public project')
 
 
-
-
+class ProfForm(FlaskForm):
+    prof = SelectMultipleField('What specialties do you own?',
+                               choices=[('copyrighter', 'copyrighter'), ('contenteditor', 'contenteditor')])
 
 
 class ParticipantForm(FlaskForm):
@@ -168,4 +150,8 @@ class ParticipantForm(FlaskForm):
                            InputRequired(), Length(min=1, max=1000)], render_kw={"placeholder": "My skills"})
     my_experience = StringField(validators=[
                            InputRequired(), Length(min=1, max=1000)], render_kw={"placeholder": "My experience"})
+    profession = FormField(ProfForm)
     submit = SubmitField('add')
+
+
+
