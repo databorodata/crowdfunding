@@ -1,8 +1,9 @@
-from flask_sqlalchemy import SQLAlchemy
-from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
+from flask_login import UserMixin
+from crowd import db, login_manager
 
-db = SQLAlchemy()
-
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 class Project(db.Model):
     __tablename__ = 'projects'
@@ -53,15 +54,6 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(20), nullable=False, unique=True)
     password = db.Column(db.String(80), nullable=False)
 
-
-
-class AuthorInfo(db.Model):
-    __tablename__ = 'authorinfo'
-
-    id = db.Column(db.Integer, primary_key=True)
-    about_me = db.Column(db.String(1000), nullable=False)
-    my_goal = db.Column(db.String(1000), nullable=False)
-    author_id = db.Column(db.Integer, nullable=False)
 
 
 
