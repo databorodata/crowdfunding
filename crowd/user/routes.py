@@ -2,7 +2,7 @@ from flask import render_template, url_for, redirect, Blueprint
 from flask_login import login_user, login_required, logout_user, current_user
 
 from crowd.models import db, User, ParticipantInfo
-from crowd.user.form import RegisterForm, LoginForm, ParticipantForm
+from crowd.user.form import RegisterForm, LoginForm, ParticipantForm, SelectForm
 from crowd import bcrypt
 
 users = Blueprint('users', __name__)
@@ -58,20 +58,22 @@ def logout():
     return redirect(url_for('users.login'))
 
 
-# @app.route('/dashboard', methods=['GET', 'POST'])
-# @login_required
-# def dashboard():
-#     form = SelectForm()
-#
-#     if form.validate_on_submit():
-#         if form.authorinfo.data:
-#             return redirect(url_for('authorform'))
-#         elif form.partinfo.data:
-#             return redirect(url_for('partform'))
-#         elif form.newproject.data:
-#             return redirect(url_for('newproject'))
-#
-#     return render_template('dashboard.html', form=form)
+@users.route('/dashboard', methods=['GET', 'POST'])
+@login_required
+def dashboard():
+    return render_template('dashboard.html')
+
+    # form = SelectForm()
+    #
+    # if form.validate_on_submit():
+    #     if form.authorinfo.data:
+    #         return redirect(url_for('authorform'))
+    #     elif form.partinfo.data:
+    #         return redirect(url_for('partform'))
+    #     elif form.newproject.data:
+    #         return redirect(url_for('newproject'))
+    #
+    # return render_template('dashboard.html', form=form)
 
 
 

@@ -1,22 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'layout.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>capiland</title>
-</head>
 
+{% block main_page %}
+
+<div class="wrapper">
 <body>
     <h1>Greetings to you, my young blogger!</h1>
-
-    <form method="POST" action="">
-        {{ form.hidden_tag() }}
-        {{ form.registration }}
-        {{ form.authentication }}
-    </form>
 </body>
 
-</html>
+</div>
+
+{% endblock main_page %}
+
 

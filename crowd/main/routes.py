@@ -4,7 +4,7 @@ from crowd.main.form import HomeForm
 main = Blueprint('main', __name__)
 
 @main.route('/', methods=['GET', 'POST'])
-def hello():
+def home():
     form = HomeForm()
 
     if form.validate_on_submit():

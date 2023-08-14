@@ -1,13 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'layout.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-</head>
 
+{% block main_page %}
+
+<div class="wrapper">
 <body>
     <h1>Hello you are logged in.</h1>
 
@@ -24,7 +20,8 @@
         {{ form.submit }}
     </form>
 
-    <a href="{{url_for('dashboard')}}">Press here to return</a>
+    <a href="{{url_for('users.dashboard')}}">Press here to return</a>
 </body>
+</div>
 
-</html>
+{% endblock main_page %}

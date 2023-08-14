@@ -26,7 +26,9 @@ def create_app():
     login_manager.init_app(app)
     from crowd.main.routes import main
     from crowd.user.routes import users
+    from crowd.projects.routes import projects
     app.register_blueprint(main)
     app.register_blueprint(users)
+    app.register_blueprint(projects)
 
     return app

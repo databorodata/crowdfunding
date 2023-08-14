@@ -1,24 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'layout.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-</head>
+
+{% block main_page %}
+
+<div class="wrapper">
 
 <body>
     <h1>You're in your personal account</h1>
 
-    <form method="POST" action="">
-        {{ form.hidden_tag() }}
-        {{ form.authorinfo }}
-        {{ form.partinfo }}
-        {{ form.newproject }}
-    </form>
+    <a href="{{ url_for('projects.newproject') }}">Work on my project</a>
 
-    <a href="{{url_for('users.logout')}}">Log out of your personal account</a>
+    <a href="{{url_for('users.partform')}}">Edit my personal data</a>
 </body>
+</div>
 
-</html>
+{% endblock main_page %}
