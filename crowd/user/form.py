@@ -34,9 +34,9 @@ class LoginForm(FlaskForm):
 
 
 class SelectForm(FlaskForm):
-    authorinfo = SubmitField('author form')
-    partinfo = SubmitField('part form')
-    newproject = SubmitField('new project')
+    partinfo = SubmitField('Edit information about yourself')
+    editproject = SubmitField('Edit your project')
+    newproject = SubmitField('Create your project')
 
 
 class AuthorForm(FlaskForm):

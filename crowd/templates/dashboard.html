@@ -8,9 +8,39 @@
 <body>
     <h1>You're in your personal account</h1>
 
-    <a href="{{ url_for('projects.newproject') }}">Work on my project</a>
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        {{ form.partinfo }}
 
-    <a href="{{url_for('users.partform')}}">Edit my personal data</a>
+        <table>
+            <tr>
+                <td>My skills</td>
+                <td>My experience</td>
+                <td>Copyrighter</td>
+                <td>Contenteditor</td>
+            </tr>
+            <tr>
+                <td>{{ part.my_skills }}</td>
+                <td>{{ part.my_experience }}</td>
+                <td>{{ part.copyrighter }}</td>
+                <td>{{ part.contenteditor }}</td>
+            </tr>
+        </table>
+
+        {% if project %}
+            <table>
+                <tr>
+                    <td>Name your project</td>
+                </tr>
+                <tr>
+                    <td>{{ project.name_blog }}</td>
+                </tr>
+            </table>
+            {{ form.editproject }}
+        {% else %}
+            {{ form.newproject }}
+        {% endif %}
+    </form>
 </body>
 </div>
 
