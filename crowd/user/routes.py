@@ -7,19 +7,6 @@ from crowd import bcrypt
 
 users = Blueprint('users', __name__)
 
-# @app.route('/login', methods=['GET', 'POST'])
-# def login():
-#     form = LoginForm()
-#
-#     if form.validate_on_submit():
-#         user = User.query.filter_by(username=form.username.data).first()
-#         if user:
-#             if bcrypt.check_password_hash(user.password, form.password.data):
-#                 login_user(user)
-#                 return redirect(url_for('dashboard'))
-#     return render_template('login.html', form=form)
-
-
 @users.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
@@ -64,20 +51,18 @@ def dashboard():
     user_id = current_user.get_id()
 
     form = SelectForm()
-    part = ParticipantInfo.query.filter_by(part_id=user_id).first()
+    part = User.query.filter_by(id=user_id).first()
     project = Project.query.filter_by(author_id=user_id).first()
 
     if form.validate_on_submit():
         if form.partinfo.data:
-            return  redirect(url_for('users.partform'))
+            return redirect(url_for('users.partform'))
         elif form.editproject.data:
-            return  redirect(url_for('projects.editproject'))
+            return redirect(url_for('projects.editproject'))
         elif form.newproject.data:
-            return  redirect(url_for('projects.newproject'))
+            return redirect(url_for('projects.newproject'))
 
     return render_template('dashboard.html', part=part, project=project, form=form)
-
-
 
 
 @users.route('/partform', methods=['GET', 'POST'])
@@ -91,10 +76,9 @@ def partform():
         for p in profession:
             if p == "copyrighter": copyrighter_ = True
             elif p == "contenteditor": contenteditor_ = True
-        newinfo = ParticipantInfo(my_skills=form.my_skills.data, my_experience=form.my_experience.data,
-                                  copyrighter=copyrighter_, contenteditor=contenteditor_, part_id=user_id)
-        db.session.add(newinfo)
+        user = User.query.filter_by(id=user_id).first()
+        user.my_skills, user.my_experience, user.copyrighter, user.contenteditor = form.my_skills.data, form.my_experience.data, copyrighter_, contenteditor_
         db.session.commit()
-        return redirect(url_for('dashboard'))
+        return redirect(url_for('users.dashboard'))
 
     return render_template('partform.html', form=form)
