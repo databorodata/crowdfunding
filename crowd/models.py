@@ -24,6 +24,10 @@ class Project(db.Model):
 
     author_id = db.Column(db.Integer, nullable=False)
 
+    quantity_follower = db.Column(db.Integer, default=0)
+    quantity_copyrighter = db.Column(db.Integer, default=0)
+    quantity_contenteditor = db.Column(db.Integer, default=0)
+
 
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
@@ -36,9 +40,15 @@ class User(db.Model, UserMixin):
     copyrighter = db.Column(db.Boolean, nullable=False)
     contenteditor = db.Column(db.Boolean, nullable=False)
 
+class JoinProject(db.Model):
+    __tablename__ = 'joinpart'
+    project_id = db.Column(db.Integer, nullable=False, primary_key=True)
+    user_id = db.Column(db.Integer, nullable=False, primary_key=True)
+    join_follower = db.Column(db.Boolean, default=False)
+    join_copyrighter = db.Column(db.Boolean, default=False)
+    join_contenteditor = db.Column(db.Boolean, default=False)
 
 
-#
 # class ParticipantInfo(db.Model):
 #     __tablename__ = 'partinfo'
 #
