@@ -1,0 +1,55 @@
+{% extends 'layout.html' %}
+
+
+{% block main_page %}
+
+<div class="wrapper">
+
+<body>
+    <h1>project.blog_name</h1>
+    <h2>Author - project.author_id</h2>
+    <form method="POST" action="">
+        {{ join.hidden_tag() }}
+        <table>
+            <tr>
+                <td>Name product</td>
+                <td>Quantity</td>
+                <td>Price for author</td>
+                <td>Price for party</td>
+                <br />
+                <td>Followers quantity</td>
+                <td>Followers salary</td>
+                <td>Become a follower</td>
+                <br />
+                <td>Copyrighter quantity</td>
+                <td>Copyrighter salary</td>
+                <td>Work as a copyrighter</td>
+                <br />
+                <td>Contenteditor quantity</td>
+                <td>Contenteditor salary</td>
+                <td>Work as a contenteditor</td>
+            </tr>
+            <tr>
+                <td>{{ project.name_product }}</td>
+                <td>{{ project.product_quantity }}</td>
+                <td>{{ project.price_author }}</td>
+                <td>{{ project.price_part }}</td>
+                <br />
+                <td>{{ project.follower }}</td>
+                <td>{{ project.salary_follower }}</td>
+                <td>{{ join.join_follower }}</td>
+                <br />
+                <td>{{ project.copyrighter }}</td>
+                <td>{{ project.salary_copyrighter }}</td>
+                <td>{{ join.join_copyrighter }}</td>
+                <br />
+                <td>{{ project.contenteditor}}</td>
+                <td>{{ project.salary_contenteditor}}</td>
+                <td>{{ join.join_contenteditor }}</td>
+            </tr>
+        </table>
+
+</body>
+</div>
+
+{% endblock main_page %}

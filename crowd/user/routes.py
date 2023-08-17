@@ -1,7 +1,7 @@
 from flask import render_template, url_for, redirect, Blueprint
 from flask_login import login_user, login_required, logout_user, current_user
 
-from crowd.models import db, User, Project, ParticipantInfo
+from crowd.models import db, User, Project
 from crowd.user.form import RegisterForm, LoginForm, ParticipantForm, SelectForm
 from crowd import bcrypt
 
@@ -58,9 +58,9 @@ def dashboard():
         if form.partinfo.data:
             return redirect(url_for('users.partform'))
         elif form.editproject.data:
-            return redirect(url_for('projects.editproject'))
+            return redirect(url_for('projects.edit_project'))
         elif form.newproject.data:
-            return redirect(url_for('projects.newproject'))
+            return redirect(url_for('projects.create_project'))
 
     return render_template('dashboard.html', part=part, project=project, form=form)
 

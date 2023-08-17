@@ -1,0 +1,27 @@
+{% extends 'layout.html' %}
+
+
+{% block main_page %}
+
+<div class="wrapper">
+<body>
+    <h1>Create your own blog</h1>
+
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        {{ form.name_blog.label }} {{ form.name_blog() }}
+        <br>
+        <br>
+        {{ form.support_product }}
+        <br>
+        <br>
+        {{ form.team_project }}
+        <br>
+        <br>
+        {{ form.submit }}
+    </form>
+</body>
+
+</div>
+
+{% endblock main_page %}
