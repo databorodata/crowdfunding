@@ -49,12 +49,3 @@ class JoinProject(db.Model):
     join_contenteditor = db.Column(db.Boolean, default=False)
 
 
-# class ParticipantInfo(db.Model):
-#     __tablename__ = 'partinfo'
-#
-#     id = db.Column(db.Integer, primary_key=True)
-#     my_skills = db.Column(db.String(1000), nullable=False)
-#     my_experience = db.Column(db.String(1000), nullable=False)
-#     copyrighter = db.Column(db.Boolean)
-#     contenteditor = db.Column(db.Boolean)
-#     part_id = db.Column(db.Integer, nullable=False)

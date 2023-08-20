@@ -1,7 +1,6 @@
-from flask_wtf import FlaskForm, Form
-from wtforms.validators import InputRequired, Length, ValidationError, NumberRange
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, IntegerField, FormField, SelectMultipleField
-from crowd.models import Project
+from flask_wtf import FlaskForm
+from wtforms.validators import InputRequired, Length, NumberRange
+from wtforms import StringField, SubmitField, IntegerField, FormField, SelectMultipleField
 
 class SupportProduct(FlaskForm):
 

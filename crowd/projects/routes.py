@@ -109,34 +109,6 @@ def get_project_by_id(id_):
 
     return render_template('project_by_id.html', project=project, join=join)
 
-# @projects.route("/projects/<id_>", methods=["GET", "POST"])
-# def get_project_by_id(id_):
-#
-#     join = JoinForm()
-#     project = Project.query.filter_by(id=id_).first()
-#
-#     current_user_id = current_user.get_id()
-#     join_project = JoinProject.query.filter_by(project_id=id_).first()
-#     user_exists = JoinProject.query.filter_by(project_id=project.id, user_id=current_user_id).first()
-#     if project.id != current_user_id and not user_exists:
-#         print('1')
-#         if join.validate_on_submit():
-#             print('2')
-#             if join.join_follower.data and join_project.follower:
-#                 print('3')
-#                 project.quantity_follower -= 1
-#                 new_match_project = JoinProject(project_id=project.id, user_id=current_user_id, join_follower=True, join_copyrighter=False, join_contenteditor=False)
-#                 print(new_match_project)
-#                 db.session.add(new_match_project)
-#                 db.session.commit()
-#             else:
-#                 print('33')
-#         else:
-#             print('22')
-#     else:
-#         print('11')
-#     return render_template('project_by_id.html', project=project, join=join)
-
 
 @projects.route("/projects", methods=["GET"])
 def list_projects():
