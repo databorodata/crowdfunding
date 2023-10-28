@@ -25,7 +25,7 @@ target_metadata = None
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
-
+print("DATABASE_URL value:", os.getenv("DATABASE_URL"))
 config.set_main_option("sqlalchemy.url", os.getenv("DATABASE_URL"))
 
 def run_migrations_offline() -> None:

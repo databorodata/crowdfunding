@@ -1,0 +1,7 @@
+.idea/
+.git/
+*.pyc
+__pycache__/
+venvcrowd/
+upgrade/
+tree.txt
