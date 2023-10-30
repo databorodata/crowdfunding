@@ -37,8 +37,9 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(80), nullable=False)
     my_skills = db.Column(db.String(1000), nullable=True)
     my_experience = db.Column(db.String(1000), nullable=True)
-    copyrighter = db.Column(db.Boolean, nullable=True)
-    contenteditor = db.Column(db.Boolean, nullable=True)
+    profession = db.Column(db.ARRAY(db.String()), nullable=True)
+    # Добавляем GIN индекс для колонки profession
+    #professions_index = db.Index('professions_index', profession, postgresql_using='gin')
 
 class JoinProject(db.Model):
     __tablename__ = 'joinpart'
@@ -47,5 +48,4 @@ class JoinProject(db.Model):
     join_follower = db.Column(db.Boolean, default=False)
     join_copyrighter = db.Column(db.Boolean, default=False)
     join_contenteditor = db.Column(db.Boolean, default=False)
-
 

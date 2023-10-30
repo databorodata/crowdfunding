@@ -2,7 +2,9 @@
 __pycache__/
 .git/
 venvcrowd/
-crowd/__pycache__/
+.crowd/__pycache__/
 alembic/versions/__pycache__/
 alembic/__pycache__/
+.crowd/projects/__pycache__/
 crowd/projects/__pycache__/
+.crowd/user/__pycache__

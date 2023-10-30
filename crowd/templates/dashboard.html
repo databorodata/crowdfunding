@@ -16,14 +16,16 @@
             <tr>
                 <td>My skills</td>
                 <td>My experience</td>
-                <td>Copyrighter</td>
-                <td>Contenteditor</td>
+                <td>Profession</td>
             </tr>
             <tr>
                 <td>{{ part.my_skills }}</td>
                 <td>{{ part.my_experience }}</td>
-                <td>{{ part.copyrighter }}</td>
-                <td>{{ part.contenteditor }}</td>
+                <td>
+                    {% for item in part.profession %}
+                        {{ item }}<br>
+                    {% endfor %}
+                </td>
             </tr>
         </table>
 
