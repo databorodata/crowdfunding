@@ -1,11 +1,11 @@
 {% extends 'layout.html' %}
 
-
 {% block main_page %}
 
 <div class="wrapper">
 <body>
     <h1>Hello you are logged in.</h1>
+
 
     <form method="POST" action="">
         {{ form.hidden_tag() }}
@@ -14,7 +14,7 @@
         {{ form.my_experience }}
         <br>
         <br>
-        {{ form.profession }}
+        {{ form.profession(size=12, multiple=True) }}
         <br>
         <br>
         {{ form.submit }}

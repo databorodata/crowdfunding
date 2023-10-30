@@ -33,27 +33,26 @@ class TeamProject(FlaskForm):
                                     [NumberRange(min=1, max=1000000)])
 
 
+class TopicsProject(FlaskForm):
+    topics = SelectMultipleField('What specialties do you own?',
+                               choices=[('fitness', 'fitness'), ('travel', 'travel'), ('fashion', 'fashion'),
+                                        ('finance', 'finance'), ('health', 'health'), ('technology', 'technology'),
+                                        ('family', 'family'), ('home', 'home'), ('books', 'books'), ('arts', 'arts'),
+                                        ('education', 'education'), ('garden', 'garden'), ('games', 'games'), ('crafts', 'crafts')])
+
 class NewProject(FlaskForm):
 
     name_blog = StringField(validators=[
                             InputRequired(), Length(min=2, max=30)], render_kw={"placeholder": "What do we call it?"})
+    idea_blog = StringField(validators=[
+        InputRequired(), Length(min=10, max=2000)], render_kw={"placeholder": "Tell us the main idea of your project"})
+    topics_blog = FormField(TopicsProject)
     support_product = FormField(SupportProduct)
     team_project = FormField(TeamProject)
     submit = SubmitField('public project')
 
 
-class ProfForm(FlaskForm):
-    prof = SelectMultipleField('What specialties do you own?',
-                               choices=[('copyrighter', 'copyrighter'), ('contenteditor', 'contenteditor')])
 
-
-class ParticipantForm(FlaskForm):
-    my_skills = StringField(validators=[
-                           InputRequired(), Length(min=1, max=1000)], render_kw={"placeholder": "My skills"})
-    my_experience = StringField(validators=[
-                           InputRequired(), Length(min=1, max=1000)], render_kw={"placeholder": "My experience"})
-    profession = FormField(ProfForm)
-    submit = SubmitField('add')
 
 class JoinForm(FlaskForm):
     join_follower = SubmitField('Join!')

@@ -59,19 +59,32 @@ class SupportProduct(FlaskForm):
     price_part = IntegerField('The price of manufacturing a product for a partner',
                                 [NumberRange(min=1, max=1000000)])
 
-
-# class Follower(FlaskForm):
-#     follower = IntegerField('How many followers do you need?',
-#                                     [NumberRange(min=1, max=1000000)])
-#     salary_follower = IntegerField('How much are you willing to pay?',
-#                                     [NumberRange(min=1, max=1000000)])
-
-
-# def custom_validator(form, field):
-#     if field.follower.data and not field.salary_follower.data:
-#         raise ValidationError("oops")
-#     if field.salary_follower.data and not field.follower.data:
-#         raise ValidationError("oops1")
+class ParticipantForm(FlaskForm):
+    my_skills = StringField(
+        validators=[InputRequired(), Length(min=1, max=1000)],
+        render_kw={"placeholder": "My skills"}
+    )
+    my_experience = StringField(
+        validators=[InputRequired(), Length(min=1, max=1000)],
+        render_kw={"placeholder": "My experience"}
+    )
+    profession = SelectMultipleField(
+        'What specialties do you own?',
+        choices=[
+            ('copyrighter', 'copyrighter'),
+            ('videographer', 'videographer'),
+            ('director', 'director'),
+            ('scriptwriter', 'scriptwriter'),
+            ('graphicdesigner', 'graphicdesigner'),
+            ('producer', 'producer'),
+            ('soundengineer', 'soundengineer'),
+            ('lightingtechnician', 'lightingtechnician'),
+            ('seospecialist', 'seospecialist'),
+            ('communitymanager', 'communitymanager'),
+            ('monetizationspecialist', 'monetizationspecialist')
+        ]
+    )
+    submit = SubmitField('add')
 
 
 class TeamProject(FlaskForm):
@@ -135,18 +148,6 @@ class NewProject(FlaskForm):
     submit = SubmitField('public project')
 
 
-class ProfForm(FlaskForm):
-    prof = SelectMultipleField('What specialties do you own?',
-                               choices=[('copyrighter', 'copyrighter'), ('contenteditor', 'contenteditor')])
-
-
-class ParticipantForm(FlaskForm):
-    my_skills = StringField(validators=[
-                           InputRequired(), Length(min=1, max=1000)], render_kw={"placeholder": "My skills"})
-    my_experience = StringField(validators=[
-                           InputRequired(), Length(min=1, max=1000)], render_kw={"placeholder": "My experience"})
-    profession = FormField(ProfForm)
-    submit = SubmitField('add')
 
 
 
