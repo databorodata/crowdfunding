@@ -10,23 +10,44 @@ class Project(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name_blog = db.Column(db.String, nullable=False)
-    name_product = db.Column(db.String, nullable=False)
-    product_quantity = db.Column(db.Integer, nullable=False)
-    price_author = db.Column(db.Integer, nullable=False)
-    price_part = db.Column(db.Integer, nullable=False)
 
-    follower = db.Column(db.Integer, nullable=True)
-    salary_follower = db.Column(db.Integer, nullable=True)
-    copyrighter = db.Column(db.Integer, nullable=True)
-    salary_copyrighter = db.Column(db.Integer, nullable=True)
-    contenteditor = db.Column(db.Integer, nullable=True)
-    salary_contenteditor = db.Column(db.Integer, nullable=True)
+    topic_blog = db.Column(db.String(1000), nullable=False)
+
+    name_product = db.Column(db.String, nullable=False)
+    price_author = db.Column(db.Integer, nullable=False)
+
+    count_posts = db.Column(db.Integer, nullable=False)
+    placement_sites = db.Column(db.ARRAY(db.String()), nullable=False)
+    count_months = db.Column(db.Integer, nullable=False)
+
+    copyrighter = db.Column(db.Integer, default=0, nullable=True)
+    salary_copyrighter = db.Column(db.Integer, default=0, nullable=True)
+    videographer = db.Column(db.Integer, default=0, nullable=True)
+    salary_videographer = db.Column(db.Integer, default=0, nullable=True)
+    director = db.Column(db.Integer, default=0, nullable=True)
+    salary_director = db.Column(db.Integer, default=0, nullable=True)
+    scriptwriter = db.Column(db.Integer, default=0, nullable=True)
+    salary_scriptwriter = db.Column(db.Integer, default=0, nullable=True)
+    graphicdesigner = db.Column(db.Integer, default=0, nullable=True)
+    salary_graphicdesigner = db.Column(db.Integer, default=0, nullable=True)
+    producer = db.Column(db.Integer, default=0, nullable=True)
+    salary_producer = db.Column(db.Integer, default=0, nullable=True)
+    soundengineer = db.Column(db.Integer, default=0, nullable=True)
+    salary_soundengineer = db.Column(db.Integer, default=0, nullable=True)
+    lightingtechnician = db.Column(db.Integer, default=0, nullable=True)
+    salary_lightingtechnician = db.Column(db.Integer, default=0, nullable=True)
+    seospecialist = db.Column(db.Integer, default=0, nullable=True)
+    salary_seospecialist = db.Column(db.Integer, default=0, nullable=True)
+    communitymanager = db.Column(db.Integer, default=0, nullable=True)
+    salary_communitymanager = db.Column(db.Integer, default=0, nullable=True)
+    monetizationspecialist = db.Column(db.Integer, default=0, nullable=True)
+    salary_monetizationspecialist = db.Column(db.Integer, default=0, nullable=True)
 
     author_id = db.Column(db.Integer, nullable=False)
 
-    quantity_follower = db.Column(db.Integer, default=0)
+"""    quantity_follower = db.Column(db.Integer, default=0)
     quantity_copyrighter = db.Column(db.Integer, default=0)
-    quantity_contenteditor = db.Column(db.Integer, default=0)
+    quantity_contenteditor = db.Column(db.Integer, default=0)"""
 
 
 class User(db.Model, UserMixin):
