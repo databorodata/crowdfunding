@@ -3,6 +3,7 @@ from flask_login import login_required, current_user
 
 from crowd.models import db, Project, JoinProject
 from crowd.projects.form import NewProject, JoinForm
+from crowd.projects.calculate import CalculateProject
 
 
 projects = Blueprint('projects', __name__)
