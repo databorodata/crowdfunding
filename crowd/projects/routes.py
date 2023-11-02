@@ -9,32 +9,49 @@ from crowd.projects.calculate import CalculateProject
 projects = Blueprint('projects', __name__)
 
 def get_data_project(form, user_id, project):
-    if form.team_project.follower.data:
-        project.follower = form.team_project.follower.data
-        project.quantity_follower = form.team_project.follower.data
-    if form.team_project.salary_follower.data:
-        project.salary_follower = form.team_project.salary_follower.data
-    if form.team_project.copyrighter.data:
-        project.copyrighter = form.team_project.copyrighter.data
-        project.quantity_copyrighter = form.team_project.copyrighter.data
-    if form.team_project.salary_copyrighter.data:
-        project.salary_copyrighter = form.team_project.salary_copyrighter.data
-    if form.team_project.contenteditor.data:
-        project.contenteditor = form.team_project.contenteditor.data
-        project.quantity_contenteditor = form.team_project.contenteditor.data
-    if form.team_project.salary_contenteditor.data:
-        project.salary_contenteditor = form.team_project.salary_contenteditor.data
 
     project.name_blog = form.name_blog.data
+    project.idea_blog = form.idea_blog.data
+
+    project.topic_blog = form.topic_blog.data
+
     project.name_product = form.support_product.name_product.data
-    project.product_quantity = form.support_product.product_quantity.data
     project.price_author = form.support_product.price_author.data
-    project.price_part = form.support_product.price_part.data
 
-    if not project.author_id:
-        project.author_id = user_id
+    project.count_posts = form.work_plan.count_posts.data
+    project.placement_sites = form.work_plan.placement_sites.data
+    project.count_months = form.work_plan.count_months.data
 
 
+    project.copyrighter = form.team_project.copyrighter.data
+    project.salary_copyrighter = form.team_project.salary_copyrighter.data
+    project.videographer = form.team_project.videographer.data
+    project.salary_videographer = form.team_project.salary_videographer.data
+    project.director = form.team_project.director.data
+    project.salary_director = form.team_project.salary_director.data
+    project.scriptwriter = form.team_project.scriptwriter.data
+    project.salary_scriptwriter = form.team_project.salary_scriptwriter.data
+    project.graphicdesigner = form.team_project.graphicdesigner.data
+    project.salary_graphicdesigner = form.team_project.salary_graphicdesigner.data
+    project.producer = form.team_project.producer.data
+    project.salary_producer = form.team_project.salary_producer.data
+    project.soundengineer = form.team_project.soundengineer.data
+    project.salary_soundengineer = form.team_project.salary_soundengineer.data
+    project.lightingtechnician = form.team_project.lightingtechnician.data
+    project.salary_lightingtechnician = form.team_project.salary_lightingtechnician.data
+    project.seospecialist = form.team_project.seospecialist.data
+    project.salary_seospecialist = form.team_project.salary_seospecialist.data
+    project.communitymanager = form.team_project.communitymanager.data
+    project.salary_communitymanager = form.team_project.salary_communitymanager.data
+    project.monetizationspecialist = form.team_project.monetizationspecialist.data
+    project.salary_monetizationspecialist = form.team_project.salary_monetizationspecialist.data
+
+    current_project = CalculateProject(form)
+    project.salary_follower, project.total_salary_follower = current_project.get_salary_follower()
+    project.amount_project = current_project.get_fee_amount()
+    project.price_product, project.count_product = current_project.get_count_and_price_product()
+
+    if not project.author_id: project.author_id = user_id
 
     return project
 
@@ -48,6 +65,9 @@ def create_project():
         db.session.add(project)
         db.session.commit()
         return redirect(url_for('users.dashboard'))
+    else:
+        # Распечатать ошибки в консоль для отладки
+        print(form.errors)
 
     return render_template('newproject.html', form=form)
 

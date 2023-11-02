@@ -9,12 +9,12 @@
 
     <form method="POST" action="">
         {{ form.hidden_tag() }}
-        {{ form.my_skills }}
+        {{ form.my_skills.label }} {{ form.my_skills }}
         <br>
-        {{ form.my_experience }}
+        {{ form.my_experience.label }} {{ form.my_experience }}
         <br>
         <br>
-        {{ form.profession(size=12, multiple=True) }}
+        {{ form.profession.label }} {{ form.profession(size=12, multiple=True) }}
         <br>
         <br>
         {{ form.submit }}

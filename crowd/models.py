@@ -10,8 +10,9 @@ class Project(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name_blog = db.Column(db.String, nullable=False)
+    idea_blog = db.Column(db.String, nullable=False)
 
-    topic_blog = db.Column(db.String(1000), nullable=False)
+    topic_blog = db.Column(db.ARRAY(db.String()), nullable=False)
 
     name_product = db.Column(db.String, nullable=False)
     price_author = db.Column(db.Integer, nullable=False)
@@ -43,12 +44,13 @@ class Project(db.Model):
     monetizationspecialist = db.Column(db.Integer, default=0, nullable=True)
     salary_monetizationspecialist = db.Column(db.Integer, default=0, nullable=True)
 
+    salary_follower = db.Column(db.Integer, default=0, nullable=True)
+    total_salary_follower = db.Column(db.Integer, default=0, nullable=True)
+    amount_project = db.Column(db.Integer, default=0, nullable=True)
+    price_product = db.Column(db.Integer, default=0, nullable=True)
+    count_product = db.Column(db.Integer, default=0, nullable=True)
+
     author_id = db.Column(db.Integer, nullable=False)
-
-"""    quantity_follower = db.Column(db.Integer, default=0)
-    quantity_copyrighter = db.Column(db.Integer, default=0)
-    quantity_contenteditor = db.Column(db.Integer, default=0)"""
-
 
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
