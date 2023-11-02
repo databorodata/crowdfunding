@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms.validators import InputRequired, Length, NumberRange, ValidationError
+from wtforms.validators import InputRequired, Length, NumberRange, ValidationError, Optional
 from wtforms import StringField, SubmitField, IntegerField, FormField, SelectMultipleField, SelectField
 
 class SupportProduct(FlaskForm):
@@ -12,81 +12,49 @@ class SupportProduct(FlaskForm):
 
 class TeamProject(FlaskForm):
 
-    def __init__(self, *args, **kwargs):
-        super(TeamProject, self).__init__(*args, **kwargs)
-        self.copyrighter = self.profession_field('copyrighter')
-        self.salary_copyrighter = self.salary_field('copyrighter')
-        self.videographer = self.profession_field('videographer')
-        self.salary_videographer = self.salary_field('videographer')
-        self.director = self.profession_field('director')
-        self.salary_director = self.salary_field('director')
-        self.scriptwriter = self.profession_field('scriptwriter')
-        self.salary_scriptwriter = self.salary_field('scriptwriter')
-        self.graphicdesigner = self.profession_field('graphicdesigner')
-        self.salary_graphicdesigner = self.salary_field('graphicdesigner')
-        self.producer = self.profession_field('producer')
-        self.salary_producer = self.salary_field('producer')
-        self.soundengineer = self.profession_field('soundengineer')
-        self.salary_soundengineer = self.salary_field('soundengineer')
-        self.lightingtechnician = self.profession_field('lightingtechnician')
-        self.salary_lightingtechnician = self.salary_field('lightingtechnician')
-        self.seospecialist = self.profession_field('seospecialist')
-        self.salary_seospecialist = self.salary_field('seospecialist')
-        self.communitymanager = self.profession_field('communitymanager')
-        self.salary_communitymanager = self.salary_field('communitymanager')
-        self.monetizationspecialist = self.profession_field('monetizationspecialist')
-        self.salary_monetizationspecialist = self.salary_field('monetizationspecialist')
+    copyrighter = IntegerField(f'How many copyrighter do you need?', [Optional(), NumberRange(min=1, max=10)])
+    salary_copyrighter = IntegerField(f'How much are you willing to pay for a month of work for copyrighter?',
+    validators=[Optional(), NumberRange(min=10000, max=100000, message="The salary should be from 10,000 to 100,000 rubles")])
 
-    @staticmethod
-    def profession_field(label_prefix):
-        return IntegerField(f'How many {label_prefix} do you need?', [NumberRange(min=1, max=10)])
+    videographer = IntegerField(f'How many videographer do you need?', [Optional(), NumberRange(min=1, max=10)])
+    salary_videographer = IntegerField(f'How much are you willing to pay for a month of work for videographer?',
+    validators=[Optional(), NumberRange(min=10000, max=100000, message="The salary should be from 10,000 to 100,000 rubles")])
 
-    @staticmethod
-    def salary_field(label_prefix):
-        return IntegerField(
-            f'How much are you willing to pay for a month of work for {label_prefix}?', validators=[
-                NumberRange(min=10000, max=100000, message="The salary should be from 10,000 to 100,000 rubles"),
-                TeamProject.MultipleOf(1000)])
-    @staticmethod
-    def MultipleOf(multiple_of):
-        def _multiple_of(field):
-            if field.data % multiple_of != 0:
-                raise ValidationError(f"The value must be a multiple of {multiple_of}")
-        return _multiple_of
+    director = IntegerField(f'How many director do you need?', [Optional(), NumberRange(min=1, max=10)])
+    salary_director = IntegerField(f'How much are you willing to pay for a month of work for director?',
+    validators=[Optional(), NumberRange(min=10000, max=100000, message="The salary should be from 10,000 to 100,000 rubles")])
 
-    # copyrighter = profession_field('copyrighter')
-    # salary_copyrighter = salary_field('copyrighter')
-    #
-    # videographer = profession_field('videographer')
-    # salary_videographer = salary_field('videographer')
-    #
-    # director = profession_field('director')
-    # salary_director = salary_field('director')
-    #
-    # scriptwriter = profession_field('scriptwriter')
-    # salary_scriptwriter = salary_field('scriptwriter')
-    #
-    # graphicdesigner = profession_field('graphicdesigner')
-    # salary_graphicdesigner = salary_field('graphicdesigner')
-    #
-    # producer = profession_field('producer')
-    # salary_producer = salary_field('producer')
-    #
-    # soundengineer = profession_field('soundengineer')
-    # salary_soundengineer = salary_field('soundengineer')
-    #
-    # lightingtechnician = profession_field('lightingtechnician')
-    # salary_lightingtechnician = salary_field('lightingtechnician')
-    #
-    # seospecialist = profession_field('seospecialist')
-    # salary_seospecialist = salary_field('seospecialist')
-    #
-    # communitymanager = profession_field('communitymanager')
-    # salary_communitymanager = salary_field('communitymanager')
-    #
-    # monetizationspecialist = profession_field('monetizationspecialist')
-    # salary_monetizationspecialist = salary_field('monetizationspecialist')
+    scriptwriter = IntegerField(f'How many scriptwriter do you need?', [Optional(), NumberRange(min=1, max=10)])
+    salary_scriptwriter = IntegerField(f'How much are you willing to pay for a month of work for scriptwriter?',
+    validators=[Optional(), NumberRange(min=10000, max=100000, message="The salary should be from 10,000 to 100,000 rubles")])
 
+    graphicdesigner = IntegerField(f'How many graphicdesigner do you need?', [Optional(), NumberRange(min=1, max=10)])
+    salary_graphicdesigner = IntegerField(f'How much are you willing to pay for a month of work for graphicdesigner?',
+    validators=[Optional(), NumberRange(min=10000, max=100000, message="The salary should be from 10,000 to 100,000 rubles")])
+
+    producer = IntegerField(f'How many producer do you need?', [Optional(), NumberRange(min=1, max=10)])
+    salary_producer = IntegerField(f'How much are you willing to pay for a month of work for producer?',
+    validators=[Optional(), NumberRange(min=10000, max=100000, message="The salary should be from 10,000 to 100,000 rubles")])
+
+    soundengineer = IntegerField(f'How many soundengineer do you need?', [Optional(), NumberRange(min=1, max=10)])
+    salary_soundengineer = IntegerField(f'How much are you willing to pay for a month of work for soundengineer?',
+    validators=[Optional(), NumberRange(min=10000, max=100000, message="The salary should be from 10,000 to 100,000 rubles")])
+
+    lightingtechnician = IntegerField(f'How many lightingtechnician do you need?', [Optional(), NumberRange(min=1, max=10)])
+    salary_lightingtechnician = IntegerField(f'How much are you willing to pay for a month of work for lightingtechnician?',
+    validators=[Optional(), NumberRange(min=10000, max=100000, message="The salary should be from 10,000 to 100,000 rubles")])
+
+    seospecialist = IntegerField(f'How many seospecialist do you need?', [Optional(), NumberRange(min=1, max=10)])
+    salary_seospecialist = IntegerField(f'How much are you willing to pay for a month of work for seospecialist?',
+    validators=[Optional(), NumberRange(min=10000, max=100000, message="The salary should be from 10,000 to 100,000 rubles")])
+
+    communitymanager = IntegerField(f'How many communitymanager do you need?', [Optional(), NumberRange(min=1, max=10)])
+    salary_communitymanager = IntegerField(f'How much are you willing to pay for a month of work for communitymanager?',
+    validators=[Optional(), NumberRange(min=10000, max=100000, message="The salary should be from 10,000 to 100,000 rubles")])
+
+    monetizationspecialist = IntegerField(f'How many monetizationspecialist do you need?', [Optional(), NumberRange(min=1, max=10)])
+    salary_monetizationspecialist = IntegerField(f'How much are you willing to pay for a month of work for monetizationspecialist?',
+    validators=[Optional(), NumberRange(min=10000, max=100000, message="The salary should be from 10,000 to 100,000 rubles")])
 
 
 class TopicsProject(FlaskForm):
@@ -114,7 +82,13 @@ class NewProject(FlaskForm):
                             InputRequired(), Length(min=2, max=30)], render_kw={"placeholder": "What do we call it?"})
     idea_blog = StringField(validators=[
         InputRequired(), Length(min=10, max=2000)], render_kw={"placeholder": "Tell us the main idea of your project"})
-    topic_blog = FormField(TopicsProject)
+    topic_blog = SelectField('What is the topic of your blog?',
+                         choices=[('fitness', 'fitness'), ('travel', 'travel'), ('fashion', 'fashion'),
+                                  ('finance', 'finance'), ('health', 'health'), ('technology', 'technology'),
+                                  ('family', 'family'), ('home', 'home'), ('books', 'books'), ('arts', 'arts'),
+                                  ('education', 'education'), ('garden', 'garden'), ('games', 'games'),
+                                  ('crafts', 'crafts')])
+
     support_product = FormField(SupportProduct)
     work_plan = FormField(WorkPlan)
     team_project = FormField(TeamProject)
