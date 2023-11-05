@@ -21,7 +21,7 @@ class CalculateProject:
         ratio_posts -= (self._optimal_count_posts - self.form.work_plan.count_posts.data) / 20
         self._salary_follower = int(self._salary_follower * ratio_posts * ratio_sites)
         self._total_salary_follower = int(self._salary_follower * self._count_followers * ratio_moths * ratio_posts * ratio_sites)
-        return self._salary_follower, self._total_salary_follower
+        return self._salary_follower, self._total_salary_follower, self._count_followers
 
     def get_salary_professionals(self):
         months = self.form.work_plan.count_months.data
