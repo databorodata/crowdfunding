@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms.validators import InputRequired, Length, ValidationError, NumberRange
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, IntegerField, FormField, SelectMultipleField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, IntegerField, FormField, SelectMultipleField, SelectField
 from crowd.models import User
 
 
@@ -75,6 +75,13 @@ class ParticipantForm(FlaskForm):
             ('soundengineer', 'soundengineer'), ('lightingtechnician', 'lightingtechnician'),
             ('seospecialist', 'seospecialist'), ('communitymanager', 'communitymanager'),
                  ('monetizationspecialist', 'monetizationspecialist')])
+    topics_user = SelectMultipleField('What topics are you interested in?',
+                         choices=[('fitness', 'fitness'), ('travel', 'travel'), ('fashion', 'fashion'),
+                                  ('finance', 'finance'), ('health', 'health'), ('technology', 'technology'),
+                                  ('family', 'family'), ('home', 'home'), ('books', 'books'), ('arts', 'arts'),
+                                  ('education', 'education'), ('garden', 'garden'), ('games', 'games'),
+                                  ('crafts', 'crafts')])
+
     submit = SubmitField('add')
 
 

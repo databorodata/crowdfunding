@@ -29,8 +29,8 @@ def register():
 
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        new_user = User(username=form.username.data, password=hashed_password, profession = ['You didnt specify your specialty'],
-                        my_skills='You didnt tell us about your skills', my_experience='You didnt tell about your experience')
+        new_user = User(username=form.username.data, password=hashed_password, profession = [''],
+                        my_skills='', my_experience='', topics_user=[''])
         db.session.add(new_user)
         db.session.commit()
         return redirect(url_for('users.login'))
@@ -65,26 +65,6 @@ def dashboard():
 
     return render_template('dashboard.html', part=part, project=project, form=form)
 
-
-# @users.route('/partform', methods=['GET', 'POST'])
-# @login_required
-# def partform():
-#     form = ParticipantForm()
-#     if form.validate_on_submit():
-#         user_id = current_user.get_id()
-#         copyrighter_, contenteditor_ = False, False
-#         profession = form.profession.data["prof"]
-#         for p in profession:
-#             if p == "copyrighter": copyrighter_ = True
-#             elif p == "contenteditor": contenteditor_ = True
-#         user = User.query.filter_by(id=user_id).first()
-#         user.my_skills, user.my_experience, user.copyrighter, user.contenteditor = form.my_skills.data, form.my_experience.data, copyrighter_, contenteditor_
-#         db.session.commit()
-#         return redirect(url_for('users.dashboard'))
-#
-#     return render_template('partform.html', form=form)
-
-
 @users.route('/partform', methods=['GET', 'POST'])
 @login_required
 def partform():
@@ -92,16 +72,16 @@ def partform():
     if form.validate_on_submit():
         user_id = current_user.get_id()
 
-        # Получаем список выбранных профессий
-        selected_professions = form.profession.data["prof"]
-
-        # Находим текущего пользователя и обновляем его поля
         user = User.query.filter_by(id=user_id).first()
         user.my_skills = form.my_skills.data
         user.my_experience = form.my_experience.data
-        user.profession = selected_professions
+        user.profession = form.profession.data
+        user.topics_user = form.topics_user.data
 
         db.session.commit()
         return redirect(url_for('users.dashboard'))
 
     return render_template('partform.html', form=form)
+
+
+

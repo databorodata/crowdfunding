@@ -46,6 +46,7 @@ class Project(db.Model):
 
     salary_follower = db.Column(db.Integer, default=0, nullable=True)
     total_salary_follower = db.Column(db.Integer, default=0, nullable=True)
+    count_followers = db.Column(db.Integer, default=100, nullable=True)
     amount_project = db.Column(db.Integer, default=0, nullable=True)
     price_product = db.Column(db.Integer, default=0, nullable=True)
     count_product = db.Column(db.Integer, default=0, nullable=True)
@@ -63,6 +64,9 @@ class User(db.Model, UserMixin):
     profession = db.Column(db.ARRAY(db.String()), nullable=True)
     # Добавляем GIN индекс для колонки profession
     #professions_index = db.Index('professions_index', profession, postgresql_using='gin')
+    topics_user = db.Column(db.ARRAY(db.String()), nullable=True)
+
+
 
 class JoinProject(db.Model):
     __tablename__ = 'joinpart'

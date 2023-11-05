@@ -13,7 +13,7 @@ def get_data_project(form, user_id, project):
     project.name_blog = form.name_blog.data
     project.idea_blog = form.idea_blog.data
 
-    project.topic_blog = form.topic_blog.data
+    project.topic_blog = [form.topic_blog.data]
 
     project.name_product = form.support_product.name_product.data
     project.price_author = form.support_product.price_author.data
@@ -47,7 +47,7 @@ def get_data_project(form, user_id, project):
     project.salary_monetizationspecialist = form.team_project.salary_monetizationspecialist.data
 
     current_project = CalculateProject(form)
-    project.salary_follower, project.total_salary_follower = current_project.get_salary_follower()
+    project.salary_follower, project.total_salary_follower, project.count_followers = current_project.get_salary_follower()
     project.amount_project = current_project.get_fee_amount()
     project.price_product, project.count_product = current_project.get_count_and_price_product()
 

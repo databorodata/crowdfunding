@@ -10,9 +10,16 @@
     <form method="POST" action="">
         {{ form.hidden_tag() }}
         {{ form.name_blog.label }} {{ form.name_blog() }}
+        {{ form.idea_blog.label }} {{ form.idea_blog() }}
+        <br>
+        <br>
+        {{ form.topic_blog.label }} {{ form.topic_blog(size=14, multiple=False)}}
         <br>
         <br>
         {{ form.support_product }}
+        <br>
+        <br>
+        {{ form.work_plan }}
         <br>
         <br>
         {{ form.team_project }}
@@ -21,7 +28,6 @@
         {{ form.submit }}
     </form>
 </body>
-
 </div>
 
 {% endblock main_page %}
