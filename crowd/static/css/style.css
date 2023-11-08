@@ -177,7 +177,7 @@ ul .checkmark:before {
 /* FOOTER */
 .footer {
     display: flex;
-    height: 100px;
+    height: 50px;
     background-color: #d7fba6;
     align-items: center;
     justify-content: center;
