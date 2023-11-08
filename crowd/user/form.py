@@ -104,14 +104,6 @@ class TeamProject(FlaskForm):
                                     [NumberRange(min=1, max=1000000)])
 
 
-class NewProject(FlaskForm):
-
-    name_blog = StringField(validators=[
-                            InputRequired(), Length(min=2, max=30)], render_kw={"placeholder": "What do we call it?"})
-    support_product = FormField(SupportProduct)
-    team_project = FormField(TeamProject)
-    submit = SubmitField('public project')
-
 
 
 

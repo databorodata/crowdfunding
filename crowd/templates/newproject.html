@@ -10,21 +10,65 @@
     <form method="POST" action="">
         {{ form.hidden_tag() }}
         {{ form.name_blog.label }} {{ form.name_blog() }}
+        <br><br>
         {{ form.idea_blog.label }} {{ form.idea_blog() }}
-        <br>
-        <br>
-        {{ form.topic_blog.label }} {{ form.topic_blog(size=14, multiple=False)}}
-        <br>
-        <br>
-        {{ form.support_product }}
-        <br>
-        <br>
-        {{ form.work_plan }}
-        <br>
-        <br>
-        {{ form.team_project }}
-        <br>
-        <br>
+        <br><br>
+        {{ form.topic_blog.label }} {{ form.topic_blog(size=14, multiple=False) }}
+        <br><br>
+        {{ form.name_product.label }} {{ form.name_product() }}
+        <br><br>
+        {{ form.price_author.label }} {{ form.price_author() }}
+        <br><br>
+        {{ form.count_posts.label }} {{ form.count_posts() }}
+        <br><br>
+        {{ form.placement_sites.label }} {{ form.placement_sites(size=14, multiple=False) }}
+        <br><br>
+        {{ form.count_months.label }} {{ form.count_months() }}
+        <br><br>
+        {{ form.copyrighter.label }} {{ form.copyrighter() }}
+        <br><br>
+        {{ form.salary_copyrighter.label }} {{ form.salary_copyrighter() }}
+        <br><br>
+        {{ form.videographer.label }} {{ form.videographer() }}
+        <br><br>
+        {{ form.salary_videographer.label }} {{ form.salary_videographer() }}
+        <br><br>
+        {{ form.director.label }} {{ form.director() }}
+        <br><br>
+        {{ form.salary_director.label }} {{ form.salary_director() }}
+        <br><br>
+        {{ form.scriptwriter.label }} {{ form.scriptwriter() }}
+        <br><br>
+        {{ form.salary_scriptwriter.label }} {{ form.salary_scriptwriter() }}
+        <br><br>
+        {{ form.graphicdesigner.label }} {{ form.graphicdesigner() }}
+        <br><br>
+        {{ form.salary_graphicdesigner.label }} {{ form.salary_graphicdesigner() }}
+        <br><br>
+        {{ form.producer.label }} {{ form.producer() }}
+        <br><br>
+        {{ form.salary_producer.label }} {{ form.salary_producer() }}
+        <br><br>
+        {{ form.soundengineer.label }} {{ form.soundengineer() }}
+        <br><br>
+        {{ form.salary_soundengineer.label }} {{ form.salary_soundengineer() }}
+        <br><br>
+        {{ form.lightingtechnician.label }} {{ form.lightingtechnician() }}
+        <br><br>
+        {{ form.salary_lightingtechnician.label }} {{ form.salary_lightingtechnician() }}
+        <br><br>
+        {{ form.seospecialist.label }} {{ form.seospecialist() }}
+        <br><br>
+        {{ form.salary_seospecialist.label }} {{ form.salary_seospecialist() }}
+        <br><br>
+        {{ form.communitymanager.label }} {{ form.communitymanager() }}
+        <br><br>
+        {{ form.salary_communitymanager.label }} {{ form.salary_communitymanager() }}
+        <br><br>
+        {{ form.monetizationspecialist.label }} {{ form.monetizationspecialist() }}
+        <br><br>
+        {{ form.salary_monetizationspecialist.label }} {{ form.salary_monetizationspecialist() }}
+        <br><br>
         {{ form.submit }}
     </form>
 </body>

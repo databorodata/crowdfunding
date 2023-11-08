@@ -50,6 +50,8 @@ class Project(db.Model):
     amount_project = db.Column(db.Integer, default=0, nullable=True)
     price_product = db.Column(db.Integer, default=0, nullable=True)
     count_product = db.Column(db.Integer, default=0, nullable=True)
+    amount_donate = db.Column(db.Integer, default=0, nullable=True)
+    amount_order_product = db.Column(db.Integer, default=0, nullable=True)
 
     author_id = db.Column(db.Integer, nullable=False)
 
@@ -65,14 +67,32 @@ class User(db.Model, UserMixin):
     # Добавляем GIN индекс для колонки profession
     #professions_index = db.Index('professions_index', profession, postgresql_using='gin')
     topics_user = db.Column(db.ARRAY(db.String()), nullable=True)
+    participation_projects = db.Column(db.ARRAY(db.Integer()), nullable=True, default=[])
 
+
+class RatingProject(db.Model):
+    __tablename__ = 'rating'
+    project_id = db.Column(db.Integer, nullable=False, primary_key=True)
+    rating_followers = db.Column(db.Integer, default=0, nullable=True)
+    rating_promotion = db.Column(db.Integer, default=0, nullable=True)
+    rating_specialists = db.Column(db.Integer, default=0, nullable=True)
+    rating_overall = db.Column(db.Integer, default=0, nullable=True)
 
 
 class JoinProject(db.Model):
     __tablename__ = 'joinpart'
     project_id = db.Column(db.Integer, nullable=False, primary_key=True)
-    user_id = db.Column(db.Integer, nullable=False, primary_key=True)
-    join_follower = db.Column(db.Boolean, default=False)
-    join_copyrighter = db.Column(db.Boolean, default=False)
-    join_contenteditor = db.Column(db.Boolean, default=False)
+    #user_id = db.Column(db.Integer, nullable=False, primary_key=True)
+    join_follower = db.Column(db.ARRAY(db.Integer()), nullable=False)
+    join_copyrighter = db.Column(db.ARRAY(db.Integer()), nullable=False)
+    join_videographer = db.Column(db.ARRAY(db.Integer()), nullable=False)
+    join_director = db.Column(db.ARRAY(db.Integer()), nullable=False)
+    join_scriptwriter = db.Column(db.ARRAY(db.Integer()), nullable=False)
+    join_graphicdesigner = db.Column(db.ARRAY(db.Integer()), nullable=False)
+    join_producer = db.Column(db.ARRAY(db.Integer()), nullable=False)
+    join_soundengineer = db.Column(db.ARRAY(db.Integer()), nullable=False)
+    join_lightingtechnician = db.Column(db.ARRAY(db.Integer()), nullable=False)
+    join_seospecialist = db.Column(db.ARRAY(db.Integer()), nullable=False)
+    join_communitymanager = db.Column(db.ARRAY(db.Integer()), nullable=False)
+    join_monetizationspecialist = db.Column(db.ARRAY(db.Integer()), nullable=False)
 
