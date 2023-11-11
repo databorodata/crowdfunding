@@ -9,7 +9,11 @@ main = Blueprint('main', __name__)
 @main.route('/', methods=['GET', 'POST'])
 def home():
     form = HomeForm()
-    data = Project.query.all()
+    try:
+        data = Project.query.all()
+    finally:
+        pass
+
     user_id = current_user.get_id()
     #user_topics = User.query.filter_by(author_id=user_id).first().topics_user
 
