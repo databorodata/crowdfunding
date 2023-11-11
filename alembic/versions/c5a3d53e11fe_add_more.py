@@ -1,13 +1,31 @@
-from flask_login import UserMixin
-from crowd import db, login_manager
+"""add more
 
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
+Revision ID: c5a3d53e11fe
+Revises: 202173dd66ff
+Create Date: 2023-11-11 15:02:27.133348
 
-class Project(db.Model):
-    __tablename__ = 'projects'
+"""
+from alembic import op
+import sqlalchemy as sa
 
+
+# revision identifiers, used by Alembic.
+revision = 'c5a3d53e11fe'
+down_revision = '202173dd66ff'
+branch_labels = None
+depends_on = None
+
+
+def upgrade() -> None:
+    op.create_table(
+        'projects',
+        sa.Column('id', sa.Integer, primary_key=True),
+        sa.Column('name_blog', sa.String, nullable=False),
+        sa.Column('idea_blog', sa.String, nullable=False),
+
+        sa.Column('topic_blog', sa.ARRAY(sa.String), nullable=False),
+        sa.Column('name_product', sa.String, nullable=False),
+    )
     id = db.Column(db.Integer, primary_key=True)
     name_blog = db.Column(db.String, nullable=False)
     idea_blog = db.Column(db.String, nullable=False)
@@ -54,47 +72,5 @@ class Project(db.Model):
     amount_donate = db.Column(db.Integer, default=0, nullable=True)
     amount_order_product = db.Column(db.Integer, default=0, nullable=True)
 
-    author_id = db.Column(db.Integer, nullable=False)
-
-class User(db.Model, UserMixin):
-    __tablename__ = 'users'
-
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(20), nullable=False, unique=True)
-    password = db.Column(db.String(80), nullable=False)
-    my_skills = db.Column(db.String(1000), nullable=True)
-    my_experience = db.Column(db.String(1000), nullable=True)
-    profession = db.Column(db.ARRAY(db.String()), nullable=True)
-    # Добавляем GIN индекс для колонки profession
-    #professions_index = db.Index('professions_index', profession, postgresql_using='gin')
-    topics_user = db.Column(db.ARRAY(db.String()), nullable=True)
-    participation_projects = db.Column(db.ARRAY(db.Integer()), nullable=True, default=[])
-
-
-class RatingProject(db.Model):
-    __tablename__ = 'rating'
-    project_id = db.Column(db.Integer, nullable=False, primary_key=True)
-    rating_followers = db.Column(db.Float, default=0.0, nullable=True)
-    rating_promotion = db.Column(db.Float, default=0.0, nullable=True)
-    rating_specialists = db.Column(db.Float, default=0.0, nullable=True)
-    rating_overall = db.Column(db.Float, default=0.0, nullable=True)
-
-
-
-class JoinProject(db.Model):
-    __tablename__ = 'joinpart'
-    project_id = db.Column(db.Integer, nullable=False, primary_key=True)
-    #user_id = db.Column(db.Integer, nullable=False, primary_key=True)
-    join_follower = db.Column(db.ARRAY(db.Integer()), nullable=False)
-    join_copyrighter = db.Column(db.ARRAY(db.Integer()), nullable=False)
-    join_videographer = db.Column(db.ARRAY(db.Integer()), nullable=False)
-    join_director = db.Column(db.ARRAY(db.Integer()), nullable=False)
-    join_scriptwriter = db.Column(db.ARRAY(db.Integer()), nullable=False)
-    join_graphicdesigner = db.Column(db.ARRAY(db.Integer()), nullable=False)
-    join_producer = db.Column(db.ARRAY(db.Integer()), nullable=False)
-    join_soundengineer = db.Column(db.ARRAY(db.Integer()), nullable=False)
-    join_lightingtechnician = db.Column(db.ARRAY(db.Integer()), nullable=False)
-    join_seospecialist = db.Column(db.ARRAY(db.Integer()), nullable=False)
-    join_communitymanager = db.Column(db.ARRAY(db.Integer()), nullable=False)
-    join_monetizationspecialist = db.Column(db.ARRAY(db.Integer()), nullable=False)
-
+def downgrade() -> None:
+    pass

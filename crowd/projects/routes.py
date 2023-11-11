@@ -25,42 +25,54 @@ def get_data_project(form, user_id, project):
     project.count_months = form.count_months.data
 
 
-    project.copyrighter = form.copyrighter.data
-    project.salary_copyrighter = form.salary_copyrighter.data
-    project.videographer = form.videographer.data
-    project.salary_videographer = form.salary_videographer.data
-    project.director = form.director.data
-    project.salary_director = form.salary_director.data
-    project.scriptwriter = form.scriptwriter.data
-    project.salary_scriptwriter = form.salary_scriptwriter.data
-    project.graphicdesigner = form.graphicdesigner.data
-    project.salary_graphicdesigner = form.salary_graphicdesigner.data
-    project.producer = form.producer.data
-    project.salary_producer = form.salary_producer.data
-    project.soundengineer = form.soundengineer.data
-    project.salary_soundengineer = form.salary_soundengineer.data
-    project.lightingtechnician = form.lightingtechnician.data
-    project.salary_lightingtechnician = form.salary_lightingtechnician.data
-    project.seospecialist = form.seospecialist.data
-    project.salary_seospecialist = form.salary_seospecialist.data
-    project.communitymanager = form.communitymanager.data
-    project.salary_communitymanager = form.salary_communitymanager.data
-    project.monetizationspecialist = form.monetizationspecialist.data
-    project.salary_monetizationspecialist = form.salary_monetizationspecialist.data
+    project.copyrighter = form.copyrighter.data or 0
+    project.salary_copyrighter = form.salary_copyrighter.data  or 0
+    project.videographer = form.videographer.data  or 0
+    project.salary_videographer = form.salary_videographer.data  or 0
+    project.director = form.director.data  or 0
+    project.salary_director = form.salary_director.data  or 0
+    project.scriptwriter = form.scriptwriter.data or 0
+    project.salary_scriptwriter = form.salary_scriptwriter.data  or 0
+    project.graphicdesigner = form.graphicdesigner.data or 0
+    project.salary_graphicdesigner = form.salary_graphicdesigner.data  or 0
+    project.producer = form.producer.data or 0
+    project.salary_producer = form.salary_producer.data or 0
+    project.soundengineer = form.soundengineer.data or 0
+    project.salary_soundengineer = form.salary_soundengineer.data or 0
+    project.lightingtechnician = form.lightingtechnician.data or 0
+    project.salary_lightingtechnician = form.salary_lightingtechnician.data or 0
+    project.seospecialist = form.seospecialist.data or 0
+    project.salary_seospecialist = form.salary_seospecialist.data or 0
+    project.communitymanager = form.communitymanager.data or 0
+    project.salary_communitymanager = form.salary_communitymanager.data or 0
+    project.monetizationspecialist = form.monetizationspecialist.data or 0
+    project.salary_monetizationspecialist = form.salary_monetizationspecialist.data or 0
 
     current_project = CalculateProject(form)
-    project.salary_follower, project.total_salary_follower, project.count_followers = current_project.get_salary_follower()
-    project.amount_project = current_project.get_fee_amount()
-    project.price_product, project.count_product = current_project.get_count_and_price_product()
-    project.amount_donate = current_project._amount_project
+    project.amount_project = current_project._amount_project
+    project.salary_follower = current_project._salary_follower
+    project.total_salary_follower = current_project._total_salary_follower
+    project.count_followers = current_project._count_followers
+    project.salary_all_professionals = current_project._salary_all_professionals
+    project.price_product = current_project._price_product
+    project.count_product = current_project._count_product
+    project.amount_donate = current_project._amount_donate
     project.amount_order_product = current_project._amount_order_product
 
     if not project.author_id: project.author_id = user_id
 
     return project
 
-def get_data_rating_project(form, user_id, rating_project):
-    current_project = CalculateRatingProject(form)
+def get_data_rating_project(project):
+    current_calculate = CalculateRatingProject(project)
+    current_rating = RatingProject()
+    current_rating.project_id = project.id
+    current_rating.rating_overall = round(float(current_calculate._rating_overall), 3)
+    current_rating.rating_followers = round(float(current_calculate._rating_followers), 3)
+    current_rating.rating_promotion = round(float(current_calculate._rating_promotion), 3)
+    current_rating.rating_specialists = round(float(current_calculate._rating_specialists), 3)
+    return current_rating
+
 
 @projects.route("/newproject", methods=["GET", "POST"])
 @login_required
@@ -69,9 +81,10 @@ def create_project():
     user_id = current_user.get_id()
     if form.validate_on_submit():
         project = get_data_project(form, user_id, Project())
-        #rating = get_data_rating_project(project, user_id, RatingProject())
         db.session.add(project)
-        #db.session.add(rating)
+        db.session.commit()
+        rating = get_data_rating_project(project)
+        db.session.add(rating)
         db.session.commit()
         return redirect(url_for('users.dashboard'))
     else:
@@ -94,11 +107,18 @@ def edit_project():
             project = Project(author_id=user_id)
             db.session.add(project)
 
+
         # Обновляем данные проекта из формы
         form.populate_obj(project)
         db.session.commit()
+        print('ok')
+        # rating = get_data_rating_project(project)
+        # db.session.add(rating)
+        # db.session.commit()
         flash('Данные проекта успешно обновлены!', 'success')
         return redirect(url_for('users.dashboard'))
+    else:
+        print('validate')
 
     return render_template('editproject.html', form=form, project=project)
 

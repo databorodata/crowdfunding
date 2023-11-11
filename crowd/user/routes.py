@@ -69,15 +69,15 @@ def dashboard():
 @login_required
 def partform():
     form = ParticipantForm()
+    user_id = current_user.get_id()
+    user_info = User.query.filter_by(id=user_id).first()
+
     if form.validate_on_submit():
-        user_id = current_user.get_id()
-
-        user = User.query.filter_by(id=user_id).first()
-        user.my_skills = form.my_skills.data
-        user.my_experience = form.my_experience.data
-        user.profession = form.profession.data
-        user.topics_user = form.topics_user.data
-
+        user_info.my_skills = form.my_skills.data
+        user_info.my_experience = form.my_experience.data
+        user_info.profession = form.profession.data
+        user_info.topics_user = form.topics_user.data
+        form.populate_obj(user_info)
         db.session.commit()
         return redirect(url_for('users.dashboard'))
 
