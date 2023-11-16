@@ -1,5 +1,34 @@
 from sqlalchemy import text
 from crowd.models import db
+
+
+def view_top_followers_project():
+    CREATE_VIEW_SQL = text("""
+    CREATE OR REPLACE VIEW top_projects AS
+    SELECT
+        p.id as project_id,
+        p.name_blog as project_name,
+        r.rating_followers as project_rating
+    FROM
+        projects p
+    JOIN
+        rating r ON p.id = r.project_id
+    ORDER BY
+        r.rating_followers DESC
+    LIMIT 5
+    """)
+
+    db.session.execute(CREATE_VIEW_SQL)
+    db.session.commit()
+
+    # Используем TextClause для явного указания столбца 'project_id'
+    projects = db.session.query(text('project_id')).from_statement(CREATE_VIEW_SQL).all()
+    project_ids = [project[0] for project in projects]
+    return project_ids
+
+
+
+
 class UserProjectInterests(db.Model):
     __tablename__ = 'user_project_interests'
 
@@ -25,3 +54,7 @@ class UserProjectInterests(db.Model):
         """)
         db.session.execute(CREATE_VIEW_SQL, {'user_id': user_id})
         db.session.commit()
+
+
+
+

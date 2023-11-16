@@ -49,6 +49,7 @@ def get_data_project(form, user_id, project):
     project.salary_monetizationspecialist = form.salary_monetizationspecialist.data or 0
 
     current_project = CalculateProject(form)
+    current_project.calculate_project()
     project.amount_project = current_project._amount_project
     project.salary_follower = current_project._salary_follower
     project.total_salary_follower = current_project._total_salary_follower
@@ -65,6 +66,7 @@ def get_data_project(form, user_id, project):
 
 def get_data_rating_project(project):
     current_calculate = CalculateRatingProject(project)
+    current_calculate.calculate_rating()
     current_rating = RatingProject()
     current_rating.project_id = project.id
     current_rating.rating_overall = round(float(current_calculate._rating_overall), 3)
@@ -98,27 +100,22 @@ def create_project():
 def edit_project():
     user_id = current_user.get_id()
     project = Project.query.filter_by(author_id=user_id).first()
-    form = NewProject(obj=project)  # Передаем объект проекта для предварительного заполнения формы
+    form = NewProject(obj=project)
 
     if form.validate_on_submit():
-        # Проверяем валидность формы
-        if project is None:
-            # Если проект не существует, создаем новый объект Project
-            project = Project(author_id=user_id)
-            db.session.add(project)
-
-
-        # Обновляем данные проекта из формы
+        project = Project(author_id=user_id)
+        db.session.add(project)
         form.populate_obj(project)
         db.session.commit()
-        print('ok')
-        # rating = get_data_rating_project(project)
-        # db.session.add(rating)
-        # db.session.commit()
+
+        print(project.id)
+        rating = get_data_rating_project(project)
+        db.session.add(rating)
+        db.session.commit()
         flash('Данные проекта успешно обновлены!', 'success')
         return redirect(url_for('users.dashboard'))
     else:
-        print('validate')
+        print(form.errors)
 
     return render_template('editproject.html', form=form, project=project)
 

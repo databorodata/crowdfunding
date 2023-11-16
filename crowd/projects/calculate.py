@@ -18,7 +18,6 @@ class CalculateProject:
         self._price_product = None
         self._amount_donate = 0
         self._amount_order_product = 0
-        self.calculate_project()
 
     def get_salary_follower(self):
         ratio_posts, ratio_moths, ratio_sites = 1, 1, 1
@@ -72,7 +71,7 @@ class CalculateRatingProject:
         self._rating_promotion = 1.0
         self._rating_overall = None
         self._count_specialists = 0
-        self.calculate_rating()
+
 
     def get_rating_followers(self):
         self._rating_followers = (self.project.count_months / 12) + \
@@ -92,6 +91,7 @@ class CalculateRatingProject:
         )
         result = db.session.execute(query.params(project_id=project_id))
         self._count_specialists = result.scalar()
+        if self._count_specialists == None: self._count_specialists = 3
         self._rating_specialists = 15000.0 / (self.project.salary_all_professionals // self._count_specialists)
 
 

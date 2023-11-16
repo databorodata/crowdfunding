@@ -1,24 +1,36 @@
 {% extends 'layout.html' %}
 
-
 {% block main_page %}
 
 <div class="wrapper">
-<body>
+  <body>
     <h1>Greetings to you, my young blogger!</h1>
-        <h2>Interesting project for you</h2>
-        <table>
-            {% for item in data %}
-                <tr>
-                    <td>{{ item.name_blog }}</td>
-                    <td> <a href = "{{ url_for('projects.get_project_by_id', id_=item.id) }}">View the project</a> </td>
-                </tr>
-            {% endfor %}
-        </table>
-</body>
 
+    {% if data %}
+      <h2>Interesting project for you</h2>
+      <table>
+        {% for item in data %}
+          <tr>
+            <td>{{ item.name_blog }}</td>
+            <td> <a href="{{ url_for('projects.get_project_by_id', id_=item.id) }}">View the project</a> </td>
+          </tr>
+        {% endfor %}
+      </table>
+    {% endif %}
+
+    {% if top_project_followers %}
+      <h2>Top Project Followers</h2>
+      <table>
+        {% for item in top_project_followers %}
+          <tr>
+            <td>{{ item.name_blog }}</td>
+            <td> <a href="{{ url_for('projects.get_project_by_id', id_=item.id) }}">View the project</a> </td>
+          </tr>
+        {% endfor %}
+      </table>
+    {% endif %}
+
+  </body>
 </div>
 
 {% endblock main_page %}
-
-
