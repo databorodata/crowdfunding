@@ -6,25 +6,25 @@
   <body>
     <h1>Greetings to you, my young blogger!</h1>
 
-    {% if data %}
-      <h2>Interesting project for you</h2>
+    {% if top_rating_project %}
+      <h2>Top Project</h2>
       <table>
-        {% for item in data %}
+        {% for item in top_rating_project %}
           <tr>
-            <td>{{ item.name_blog }}</td>
-            <td> <a href="{{ url_for('projects.get_project_by_id', id_=item.id) }}">View the project</a> </td>
+            <td>{{ item[1] }}</td>
+            <td> <a href="{{ url_for('projects.get_project_by_id', id_=item[0]) }}">View the project</a> </td>
           </tr>
         {% endfor %}
       </table>
     {% endif %}
-
-    {% if top_project_followers %}
-      <h2>Top Project Followers</h2>
+    <br><br>
+    {% if top_rating_followers %}
+      <h2>Top Project</h2>
       <table>
-        {% for item in top_project_followers %}
+        {% for item in top_rating_followers %}
           <tr>
-            <td>{{ item.name_blog }}</td>
-            <td> <a href="{{ url_for('projects.get_project_by_id', id_=item.id) }}">View the project</a> </td>
+            <td>{{ item[1] }}</td>
+            <td> <a href="{{ url_for('projects.get_project_by_id', id_=item[0]) }}">View the project</a> </td>
           </tr>
         {% endfor %}
       </table>

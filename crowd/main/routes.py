@@ -2,24 +2,20 @@ from flask import Blueprint, render_template, url_for, redirect
 from crowd.main.form import HomeForm
 from crowd.models import db, Project, User
 from flask_login import current_user
-from crowd.views import view_top_followers_project
+from crowd.views import view_top_rating_overall, view_top_rating_followers
+from sqlalchemy import text
 
 main = Blueprint('main', __name__)
 
 @main.route('/', methods=['GET', 'POST'])
 def home():
     form = HomeForm()
-    data = None
-    top_project_followers = None
 
-    try:
-        data = Project.query.all()
-        top_project_followers = view_top_followers_project()
-    except Exception as e:
-        # Обработка ошибки (например, логирование)
-        print(f"An error occurred: {e}")
+    view_top_rating_overall()
+    top_rating_project = db.session.query(Project.id, Project.name_blog).from_statement(text('SELECT * FROM top_overall')).all()
+    view_top_rating_followers()
+    top_rating_followers = db.session.query(Project.id, Project.name_blog).from_statement(text('SELECT * FROM top_followers')).all()
 
-    user_id = current_user.get_id()
 
     if form.validate_on_submit():
         if form.registration.data:
@@ -27,8 +23,14 @@ def home():
         elif form.authentication.data:
             return redirect(url_for('users.login'))
 
-    return render_template('home.html', form=form, data=data,
-                           top_project_followers=top_project_followers)
+    return render_template(
+          'home.html', form=form,
+                           top_rating_project=top_rating_project,
+                           top_rating_followers=top_rating_followers
+                           )
+
+
+
 
     #user_topics = User.query.filter_by(author_id=user_id).first().topics_user
 
