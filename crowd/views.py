@@ -1,31 +1,91 @@
 from sqlalchemy import text
 from crowd.models import db
 
-
-def view_top_followers_project():
+def view_top_rating_overall():
     CREATE_VIEW_SQL = text("""
-    CREATE OR REPLACE VIEW top_projects AS
-    SELECT
-        p.id as project_id,
-        p.name_blog as project_name,
-        r.rating_followers as project_rating
-    FROM
-        projects p
-    JOIN
-        rating r ON p.id = r.project_id
-    ORDER BY
-        r.rating_followers DESC
-    LIMIT 5
+        CREATE OR REPLACE VIEW top_overall AS
+        SELECT
+            p.id,
+            p.name_blog,
+            r.rating_overall
+        FROM
+            projects p
+        JOIN
+            rating r ON p.id = r.project_id
+        ORDER BY
+            r.rating_overall DESC
+        LIMIT 5
     """)
-
     db.session.execute(CREATE_VIEW_SQL)
     db.session.commit()
 
-    # Используем TextClause для явного указания столбца 'project_id'
-    projects = db.session.query(text('project_id')).from_statement(CREATE_VIEW_SQL).all()
-    project_ids = [project[0] for project in projects]
-    return project_ids
+def view_top_rating_followers():
+    CREATE_VIEW_SQL = text("""
+        CREATE OR REPLACE VIEW top_followers AS
+        SELECT
+            p.id,
+            p.name_blog,
+            r.rating_followers
+        FROM
+            projects p
+        JOIN
+            rating r ON p.id = r.project_id
+        ORDER BY
+            r.rating_followers DESC
+        LIMIT 5
+    """)
+    db.session.execute(CREATE_VIEW_SQL)
+    db.session.commit()
 
+# def view_top_followers_project():
+#     CREATE_VIEW_SQL = text("""
+#     CREATE OR REPLACE VIEW top_projects AS
+#     SELECT
+#         p.id as project_id,
+#         p.name_blog as project_name,
+#         r.rating_followers as project_rating
+#     FROM
+#         projects p
+#     JOIN
+#         rating r ON p.id = r.project_id
+#     ORDER BY
+#         r.rating_followers DESC
+#     LIMIT 5
+#     """)
+#
+#     db.session.execute(CREATE_VIEW_SQL)
+#
+#     projects = db.session.query(text('project_id')).from_statement(CREATE_VIEW_SQL).all()
+#
+#     project_ids = [project[0] for project in projects]
+#     db.session.commit()
+#     return project_ids
+#
+# def view_top_followers_project():
+#     CREATE_VIEW_SQL = text("""
+#     CREATE OR REPLACE VIEW top_projects AS
+#     SELECT
+#         p.id as project_id,
+#         p.name_blog as project_name,
+#         r.rating_followers as project_rating
+#     FROM
+#         projects p
+#     JOIN
+#         rating r ON p.id = r.project_id
+#     ORDER BY
+#         r.rating_followers DESC
+#     LIMIT 5
+#     """)
+#
+#     # Отключаем автоматическое фиксирование транзакций
+#     with db.session.begin(subtransactions=True):
+#         db.session.execute(CREATE_VIEW_SQL)
+#
+#     # Используем TextClause для явного указания столбца 'project_id'
+#     projects = db.session.query(text('project_id')).from_statement(text('SELECT * FROM top_projects')).all()
+#     project_ids = [project[0] for project in projects]
+#     return project_ids
+#
 
 
 
