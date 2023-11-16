@@ -84,7 +84,6 @@ class RatingProject(db.Model):
 class JoinProject(db.Model):
     __tablename__ = 'joinpart'
     project_id = db.Column(db.Integer, nullable=False, primary_key=True)
-    #user_id = db.Column(db.Integer, nullable=False, primary_key=True)
     join_follower = db.Column(db.ARRAY(db.Integer()), nullable=False)
     join_copyrighter = db.Column(db.ARRAY(db.Integer()), nullable=False)
     join_videographer = db.Column(db.ARRAY(db.Integer()), nullable=False)
