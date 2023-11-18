@@ -41,6 +41,18 @@
         {% endfor %}
       </table>
     {% endif %}
+      <br><br>
+    {% if top_profession_topics %}
+      <h2>Projects that require your profession</h2>
+      <table>
+        {% for item in top_profession_topics %}
+          <tr>
+            <td>{{ item[1] }}</td>
+            <td> <a href="{{ url_for('projects.get_project_by_id', id_=item[0]) }}">View the project</a> </td>
+          </tr>
+        {% endfor %}
+      </table>
+    {% endif %}
 
   </body>
 </div>
