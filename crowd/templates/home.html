@@ -19,9 +19,21 @@
     {% endif %}
     <br><br>
     {% if top_rating_followers %}
-      <h2>Top Project</h2>
+      <h2>Top projects for followers</h2>
       <table>
         {% for item in top_rating_followers %}
+          <tr>
+            <td>{{ item[1] }}</td>
+            <td> <a href="{{ url_for('projects.get_project_by_id', id_=item[0]) }}">View the project</a> </td>
+          </tr>
+        {% endfor %}
+      </table>
+    {% endif %}
+      <br><br>
+    {% if top_rating_topics %}
+      <h2>Top projects with your favorite theme</h2>
+      <table>
+        {% for item in top_rating_topics %}
           <tr>
             <td>{{ item[1] }}</td>
             <td> <a href="{{ url_for('projects.get_project_by_id', id_=item[0]) }}">View the project</a> </td>
