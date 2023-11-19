@@ -1,4 +1,4 @@
-from flask import render_template, url_for, redirect, Blueprint, request
+from flask import render_template, url_for, redirect, Blueprint
 from flask_login import login_user, login_required, logout_user, current_user
 
 from crowd.models import db, User, Project
@@ -82,6 +82,3 @@ def partform():
         return redirect(url_for('users.dashboard'))
 
     return render_template('partform.html', form=form)
-
-
-

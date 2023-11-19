@@ -70,13 +70,7 @@ class NewProject(FlaskForm):
 
     submit = SubmitField('public project')
 
-
-
-
 class JoinForm(FlaskForm):
-
-
-
     join_follower = SubmitField('Join!')
     join_copyrighter = SubmitField('Join!')
     join_videographer = SubmitField('Join!')
@@ -89,7 +83,3 @@ class JoinForm(FlaskForm):
     join_seospecialist = SubmitField('Join!')
     join_communitymanager = SubmitField('Join!')
     join_monetizationspecialist = SubmitField('Join!')
-
-
-
-

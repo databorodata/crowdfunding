@@ -1,5 +1,5 @@
 from crowd import create_app, db
-#from crowd.generatedata import generate_users
+#from crowd.generatedata import generate_users # for generate test data
 
 app = create_app()
 

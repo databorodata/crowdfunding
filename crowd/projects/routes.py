@@ -1,4 +1,4 @@
-from flask import jsonify, render_template, url_for, redirect, Blueprint
+from flask import render_template, url_for, redirect, Blueprint
 from flask_login import login_required, current_user
 
 from crowd.models import db, Project, JoinProject, RatingProject, User
@@ -90,7 +90,6 @@ def create_project():
         db.session.commit()
         return redirect(url_for('users.dashboard'))
     else:
-        # Распечатать ошибки в консоль для отладки
         print(form.errors)
 
     return render_template('newproject.html', form=form)
@@ -120,19 +119,6 @@ def edit_project():
     return render_template('editproject.html', form=form, project=project)
 
 
-@projects.route("/projects/<id_>", methods=["DELETE"])
-@login_required
-def delete_project(id_):
-    project = Project.query.get_or_404(id_)
-    try:
-        db.session.delete(project)
-        db.session.commit()
-    except Exception as e:
-        return str(e)
-    return ''
-
-
-
 @projects.route("/projects/<id_>", methods=["GET", "POST"])
 def get_project_by_id(id_):
 
@@ -141,7 +127,8 @@ def get_project_by_id(id_):
 
     current_user_id = current_user.get_id()
     user = User.query.filter_by(id=current_user_id).first()
-    user_profession = user.profession[0]
+    if user and user.profession: user_profession = user.profession[0]
+    else: user_profession = None
 
     join_buttons = {
         'join_copyrighter': 'copyrighter',
@@ -151,10 +138,11 @@ def get_project_by_id(id_):
         'join_lightingtechnician': 'lightingtechnician', 'join_seospecialist': 'seospecialist',
         'join_communitymanager': 'communitymanager', 'join_monetizationspecialist': 'monetizationspecialist',
     }
-    if project.author_id == current_user_id: redirect(url_for('projects.editproject'))
-    for user_project in user.participation_projects:
-        if user_project == project.id:
-            pass # дописать логику потом
+    if current_user_id and project.author_id == current_user_id: redirect(url_for('projects.editproject'))
+    if user and user.participation_projects:
+        for user_project in user.participation_projects:
+            if user_project == project.id:
+                pass # дописать логику потом
 
 
     if join.validate_on_submit():
@@ -167,19 +155,7 @@ def get_project_by_id(id_):
 
         db.session.commit()
 
-    return render_template('project_by_id.html', project=project, join=join, user_profession=user_profession)
-
-
-@projects.route("/projects", methods=["GET"])
-def list_projects():
-    try:
-        projects = Project.query.all()
-        return jsonify([e.serialize() for e in projects])
-    except Exception as e:
-        return str(e)
-
-
-@projects.route('/newproject', methods=['GET', 'POST'])
-@login_required
-def newproject():
-    return render_template('newproject.html')
+    return render_template('project_by_id.html',
+                           project=project,
+                           join=join,
+                           user_profession=user_profession)

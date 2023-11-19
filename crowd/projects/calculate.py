@@ -1,4 +1,3 @@
-from crowd.projects.form import NewProject
 from math import ceil
 from crowd import db
 from sqlalchemy import text

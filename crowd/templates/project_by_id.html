@@ -11,74 +11,75 @@
     <h2>Name product - {{ project.name_product }}</h2>
     <h2>Price - {{ project.price_author }}</h2>
     <h2>Author - {{ project.author_id }}</h2>
-    <form method="POST" action="">
-        {% if project.copyrighter > 0 and user_profession == 'copyrighter' %}
-            <h3>I want to be a Copyrighter - Salary: {{ project.salary_copyrighter }}</h3>
-            {{ join.join_copyrighter }}
-            <br><br>
-        {% endif %}
+    {% if user_profession %}
+        <form method="POST" action="">
+            {% if project.copyrighter > 0 and user_profession == 'copyrighter' %}
+                <h3>I want to be a Copyrighter - Salary: {{ project.salary_copyrighter }}</h3>
+                {{ join.join_copyrighter }}
+                <br><br>
+            {% endif %}
 
-        {% if project.videographer > 0 and user_profession == 'videographer' %}
-            <h3>I want to be a Videographer - Salary: {{ project.salary_videographer }}</h3>
-            {{ join.join_videographer }}
-            <br><br>
-        {% endif %}
+            {% if project.videographer > 0 and user_profession == 'videographer' %}
+                <h3>I want to be a Videographer - Salary: {{ project.salary_videographer }}</h3>
+                {{ join.join_videographer }}
+                <br><br>
+            {% endif %}
 
-        {% if project.director > 0 and user_profession == 'director' %}
-            <h3>I want to be a Director - Salary: {{ project.salary_director }}</h3>
-            {{ join.join_director }}
-            <br><br>
-        {% endif %}
+            {% if project.director > 0 and user_profession == 'director' %}
+                <h3>I want to be a Director - Salary: {{ project.salary_director }}</h3>
+                {{ join.join_director }}
+                <br><br>
+            {% endif %}
 
-        {% if project.scriptwriter > 0 and user_profession == 'scriptwriter' %}
-            <h3>I want to be a Scriptwriter - Salary: {{ project.salary_scriptwriter }}</h3>
-            {{ join.join_scriptwriter }}
-            <br><br>
-        {% endif %}
+            {% if project.scriptwriter > 0 and user_profession == 'scriptwriter' %}
+                <h3>I want to be a Scriptwriter - Salary: {{ project.salary_scriptwriter }}</h3>
+                {{ join.join_scriptwriter }}
+                <br><br>
+            {% endif %}
 
-        {% if project.graphicdesigner > 0 and user_profession == 'graphicdesigner' %}
-            <h3>I want to be a Graphic Designer - Salary: {{ project.salary_graphicdesigner }}</h3>
-            {{ join.join_graphicdesigner }}
-            <br><br>
-        {% endif %}
+            {% if project.graphicdesigner > 0 and user_profession == 'graphicdesigner' %}
+                <h3>I want to be a Graphic Designer - Salary: {{ project.salary_graphicdesigner }}</h3>
+                {{ join.join_graphicdesigner }}
+                <br><br>
+            {% endif %}
 
-        {% if project.producer > 0 and user_profession == 'producer' %}
-            <h3>I want to be a Producer - Salary: {{ project.salary_producer }}</h3>
-            {{ join.join_producer }}
-            <br><br>
-        {% endif %}
+            {% if project.producer > 0 and user_profession == 'producer' %}
+                <h3>I want to be a Producer - Salary: {{ project.salary_producer }}</h3>
+                {{ join.join_producer }}
+                <br><br>
+            {% endif %}
 
-        {% if project.soundengineer > 0 and user_profession == 'soundengineer' %}
-            <h3>I want to be a Sound Engineer - Salary: {{ project.salary_soundengineer }}</h3>
-            {{ join.join_soundengineer }}
-            <br><br>
-        {% endif %}
+            {% if project.soundengineer > 0 and user_profession == 'soundengineer' %}
+                <h3>I want to be a Sound Engineer - Salary: {{ project.salary_soundengineer }}</h3>
+                {{ join.join_soundengineer }}
+                <br><br>
+            {% endif %}
 
-        {% if project.lightingtechnician > 0 and user_profession == 'lightingtechnician' %}
-            <h3>I want to be a Lighting Technician - Salary: {{ project.salary_lightingtechnician }}</h3>
-            {{ join.join_lightingtechnician }}
-            <br><br>
-        {% endif %}
+            {% if project.lightingtechnician > 0 and user_profession == 'lightingtechnician' %}
+                <h3>I want to be a Lighting Technician - Salary: {{ project.salary_lightingtechnician }}</h3>
+                {{ join.join_lightingtechnician }}
+                <br><br>
+            {% endif %}
 
-        {% if project.seospecialist > 0 and user_profession == 'seospecialist' %}
-            <h3>I want to be an SEO Specialist - Salary: {{ project.salary_seospecialist }}</h3>
-            {{ join.join_seospecialist }}
-            <br><br>
-        {% endif %}
+            {% if project.seospecialist > 0 and user_profession == 'seospecialist' %}
+                <h3>I want to be an SEO Specialist - Salary: {{ project.salary_seospecialist }}</h3>
+                {{ join.join_seospecialist }}
+                <br><br>
+            {% endif %}
 
-        {% if project.communitymanager > 0 and user_profession == 'communitymanager' %}
-            <h3>I want to be a Community Manager - Salary: {{ project.salary_communitymanager }}</h3>
-            {{ join.join_communitymanager }}
-            <br><br>
-        {% endif %}
+            {% if project.communitymanager > 0 and user_profession == 'communitymanager' %}
+                <h3>I want to be a Community Manager - Salary: {{ project.salary_communitymanager }}</h3>
+                {{ join.join_communitymanager }}
+                <br><br>
+            {% endif %}
 
-        {% if project.monetizationspecialist > 0 and user_profession == 'monetizationspecialist' %}
-            <h3>I want to be a Monetization Specialist - Salary: {{ project.salary_monetizationspecialist }}</h3>
-            {{ join.join_monetizationspecialist }}
-            <br><br>
-        {% endif %}
-    </form>
-
+            {% if project.monetizationspecialist > 0 and user_profession == 'monetizationspecialist' %}
+                <h3>I want to be a Monetization Specialist - Salary: {{ project.salary_monetizationspecialist }}</h3>
+                {{ join.join_monetizationspecialist }}
+                <br><br>
+            {% endif %}
+        </form>
+    {% endif %}
 </body>
 </div>
 

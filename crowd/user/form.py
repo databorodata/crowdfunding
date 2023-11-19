@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms.validators import InputRequired, Length, ValidationError, NumberRange
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, IntegerField, FormField, SelectMultipleField, SelectField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, IntegerField, SelectMultipleField
 from crowd.models import User
 
 
@@ -39,26 +39,6 @@ class SelectForm(FlaskForm):
     newproject = SubmitField('Create your project')
 
 
-class AuthorForm(FlaskForm):
-
-    about_me = StringField(validators=[
-                           InputRequired(), Length(min=1, max=1000)], render_kw={"placeholder": "About me"})
-    my_goal = StringField(validators=[
-                           InputRequired(), Length(min=1, max=1000)], render_kw={"placeholder": "My goal"})
-    submit = SubmitField('add/edit')
-
-
-class SupportProduct(FlaskForm):
-
-    name_product = StringField(validators=[
-                            InputRequired(), Length(min=2, max=30)], render_kw={"placeholder": "Blog Support Product"})
-    product_quantity = IntegerField('How many units of the product will need to be implemented?',
-                                    [NumberRange(min=1, max=1000000)])
-    price_author = IntegerField('The price of manufacturing the product for the author',
-                                    [NumberRange(min=1, max=1000000)])
-    price_part = IntegerField('The price of manufacturing a product for a partner',
-                                [NumberRange(min=1, max=1000000)])
-
 class ParticipantForm(FlaskForm):
     my_skills = StringField(
         validators=[InputRequired(), Length(min=1, max=1000)],
@@ -85,23 +65,6 @@ class ParticipantForm(FlaskForm):
     submit = SubmitField('add')
 
 
-class TeamProject(FlaskForm):
-
-    follower = IntegerField('How many followers do you need?',
-                                    [NumberRange(min=1, max=1000000)])
-    salary_follower = IntegerField('How much are you willing to pay?',
-                                    [NumberRange(min=1, max=1000000)])
-
-    #follower = FormField(Follower, validators=[custom_validator])
-    copyrighter = IntegerField('How many copyrighter do you need?',
-                                    [NumberRange(min=1, max=1000000)])
-    salary_copyrighter = IntegerField('How much are you willing to pay?',
-                                    [NumberRange(min=1, max=1000000)])
-
-    contenteditor = IntegerField('How many contenteditor do you need?',
-                                    [NumberRange(min=1, max=1000000)])
-    salary_contenteditor = IntegerField('How much are you willing to pay?',
-                                    [NumberRange(min=1, max=1000000)])
 
 
 
