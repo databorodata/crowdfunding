@@ -1,4 +1,3 @@
-from flask import Flask
 from crowd.models import User, Project, RatingProject
 from crowd import db, bcrypt
 from random import choice, randrange

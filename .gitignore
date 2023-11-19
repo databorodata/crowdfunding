@@ -7,4 +7,4 @@ alembic/versions/__pycache__/
 alembic/__pycache__/
 crowd/projects/__pycache__/
 crowd/main/__pycache__/routes.cpython-310.pyc
-
+crowd/manage
