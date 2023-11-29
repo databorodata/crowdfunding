@@ -1,11 +1,11 @@
 from flask import render_template, url_for, redirect, Blueprint
 from flask_login import login_user, login_required, logout_user, current_user
-
 from crowd.models import db, User, Project
 from crowd.user.form import RegisterForm, LoginForm, ParticipantForm, SelectForm
 from crowd import bcrypt
 
 users = Blueprint('users', __name__)
+
 
 @users.route('/login', methods=['GET', 'POST'])
 def login():
@@ -13,7 +13,6 @@ def login():
         return redirect(url_for('main.home'))
 
     form = LoginForm()
-
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         if user:
@@ -29,14 +28,19 @@ def register():
 
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        new_user = User(username=form.username.data, password=hashed_password, profession = [''],
-                        my_skills='', my_experience='', topics_user=[''])
+        new_user = User(
+            username=form.username.data,
+            password=hashed_password,
+            profession = [''],
+            my_skills='',
+            my_experience='',
+            topics_user=['']
+        )
         db.session.add(new_user)
         db.session.commit()
         return redirect(url_for('users.login'))
 
     return render_template('register.html', form=form)
-
 
 
 @users.route('/logout', methods=['GET', 'POST'])
@@ -50,7 +54,6 @@ def logout():
 @login_required
 def dashboard():
     user_id = current_user.get_id()
-
     form = SelectForm()
     part = User.query.filter_by(id=user_id).first()
     project = Project.query.filter_by(author_id=user_id).first()
@@ -64,6 +67,7 @@ def dashboard():
             return redirect(url_for('projects.create_project'))
 
     return render_template('dashboard.html', part=part, project=project, form=form)
+
 
 @users.route('/partform', methods=['GET', 'POST'])
 @login_required

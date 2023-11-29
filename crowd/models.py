@@ -1,9 +1,11 @@
 from flask_login import UserMixin
 from crowd import db, login_manager
 
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
 
 class Project(db.Model):
     __tablename__ = 'projects'
@@ -56,6 +58,7 @@ class Project(db.Model):
 
     author_id = db.Column(db.Integer, nullable=False)
 
+
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
 
@@ -66,7 +69,7 @@ class User(db.Model, UserMixin):
     my_experience = db.Column(db.String(1000), nullable=True)
     profession = db.Column(db.ARRAY(db.String()), nullable=True)
     # Добавляем GIN индекс для колонки profession
-    #professions_index = db.Index('professions_index', profession, postgresql_using='gin')
+    # professions_index = db.Index('professions_index', profession, postgresql_using='gin')
     topics_user = db.Column(db.ARRAY(db.String()), nullable=True)
     participation_projects = db.Column(db.ARRAY(db.Integer()), nullable=True, default=[])
 
@@ -78,7 +81,6 @@ class RatingProject(db.Model):
     rating_promotion = db.Column(db.Float, default=0.0, nullable=True)
     rating_specialists = db.Column(db.Float, default=0.0, nullable=True)
     rating_overall = db.Column(db.Float, default=0.0, nullable=True)
-
 
 
 class JoinProject(db.Model):

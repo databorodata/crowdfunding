@@ -18,7 +18,7 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object(os.environ['APP_SETTINGS'])
     #app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    app.config.from_object(ProductionConfig)
+    #app.config.from_object(ProductionConfig)
     db.init_app(app)
     bcrypt.init_app(app)
     login_manager.init_app(app)

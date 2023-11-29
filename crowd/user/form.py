@@ -1,34 +1,24 @@
 from flask_wtf import FlaskForm
-from wtforms.validators import InputRequired, Length, ValidationError, NumberRange
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, IntegerField, SelectMultipleField
+from wtforms.validators import InputRequired, Length, ValidationError
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, SelectMultipleField
 from crowd.models import User
 
 
-
 class RegisterForm(FlaskForm):
-    username = StringField(validators=[
-        InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Username"})
-
-    password = PasswordField(validators=[
-        InputRequired(), Length(min=8, max=20)], render_kw={"placeholder": "Password"})
-
+    username = StringField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Username"})
+    password = PasswordField(validators=[InputRequired(), Length(min=8, max=20)], render_kw={"placeholder": "Password"})
     submit = SubmitField('Register')
 
+    @staticmethod
     def validate_username(self, username):
-        existing_user_username = User.query.filter_by(
-            username=username.data).first()
+        existing_user_username = User.query.filter_by(username=username.data).first()
         if existing_user_username:
-            raise ValidationError(
-                'That username already exists. Please choose a different one.')
-
+            raise ValidationError('That username already exists. Please choose a different one.')
 
 
 class LoginForm(FlaskForm):
-    username = StringField(validators=[
-                           InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Username"})
-
-    password = PasswordField(validators=[
-                             InputRequired(), Length(min=8, max=20)], render_kw={"placeholder": "Password"})
+    username = StringField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Username"})
+    password = PasswordField(validators=[InputRequired(), Length(min=8, max=20)], render_kw={"placeholder": "Password"})
     remember = BooleanField("Запомнить", default=False)
     submit = SubmitField('Login')
 
@@ -50,24 +40,20 @@ class ParticipantForm(FlaskForm):
     )
     profession = SelectMultipleField(
         'What specialties do you own?',
-        choices=[('copyrighter', 'copyrighter'), ('videographer', 'videographer'), ('director', 'director'),
+        choices=[
+            ('copyrighter', 'copyrighter'), ('videographer', 'videographer'), ('director', 'director'),
             ('scriptwriter', 'scriptwriter'), ('graphicdesigner', 'graphicdesigner'), ('producer', 'producer'),
             ('soundengineer', 'soundengineer'), ('lightingtechnician', 'lightingtechnician'),
             ('seospecialist', 'seospecialist'), ('communitymanager', 'communitymanager'),
-                 ('monetizationspecialist', 'monetizationspecialist')])
+            ('monetizationspecialist', 'monetizationspecialist')
+        ])
     topics_user = SelectMultipleField('What topics are you interested in?',
-                         choices=[('fitness', 'fitness'), ('travel', 'travel'), ('fashion', 'fashion'),
-                                  ('finance', 'finance'), ('health', 'health'), ('technology', 'technology'),
-                                  ('family', 'family'), ('home', 'home'), ('books', 'books'), ('arts', 'arts'),
-                                  ('education', 'education'), ('garden', 'garden'), ('games', 'games'),
-                                  ('crafts', 'crafts')])
+                                      choices=[('fitness', 'fitness'), ('travel', 'travel'), ('fashion', 'fashion'),
+                                               ('finance', 'finance'), ('health', 'health'),
+                                               ('technology', 'technology'),
+                                               ('family', 'family'), ('home', 'home'), ('books', 'books'),
+                                               ('arts', 'arts'),
+                                               ('education', 'education'), ('garden', 'garden'), ('games', 'games'),
+                                               ('crafts', 'crafts')])
 
     submit = SubmitField('add')
-
-
-
-
-
-
-
-
