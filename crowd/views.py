@@ -1,6 +1,7 @@
 from sqlalchemy import text
 from crowd.models import db
 
+
 def view_top_rating_overall():
     CREATE_VIEW_SQL = text("""
         CREATE OR REPLACE VIEW top_overall AS
@@ -18,6 +19,7 @@ def view_top_rating_overall():
     """)
     db.session.execute(CREATE_VIEW_SQL)
     db.session.commit()
+
 
 def view_top_rating_followers():
     CREATE_VIEW_SQL = text("""

@@ -2,6 +2,7 @@ from math import ceil
 from crowd import db
 from sqlalchemy import text
 
+
 class CalculateProject:
 
     def __init__(self, form):
@@ -15,6 +16,7 @@ class CalculateProject:
         self._amount_project = None
         self._total_salary_follower = None
         self._price_product = None
+        self._count_product = None
         self._amount_donate = 0
         self._amount_order_product = 0
 
@@ -24,12 +26,18 @@ class CalculateProject:
         ratio_sites -= (self._optimal_count_sites - len(self.form.placement_sites.data)) / 10
         ratio_posts -= (self._optimal_count_posts - self.form.count_posts.data) / 20
         self._salary_follower = int(self._salary_follower * ratio_posts * ratio_sites)
-        self._total_salary_follower = int(self._salary_follower * self._count_followers * ratio_moths * ratio_posts * ratio_sites)
+        self._total_salary_follower = int(self._salary_follower *
+                                          self._count_followers *
+                                          ratio_moths *
+                                          ratio_posts *
+                                          ratio_sites)
 
     def get_salary_professionals(self):
         months = self.form.count_months.data
-        def multiplication(a, b, c):
-            if isinstance(a, int) and isinstance(b, int) and isinstance(c, int): return a * b * c
+
+        def multiplication(profession, salary, month):
+            if isinstance(profession, int) and isinstance(salary, int) and isinstance(month, int):
+                return profession * salary * month
             else: return 0
 
         self._salary_all_professionals += \
@@ -46,7 +54,6 @@ class CalculateProject:
             multiplication(self.form.monetizationspecialist.data, self.form.salary_monetizationspecialist.data, months)
 
     def get_count_and_price_product(self):
-        if not self._amount_project: self._amount_project = self.calculate_project()
         cost_price = self.form.price_author.data
         self._price_product = ceil(cost_price * 0.2) + cost_price
         self._count_product = self._amount_project // ceil(cost_price * 0.2) + 1
@@ -59,7 +66,6 @@ class CalculateProject:
             self.get_count_and_price_product()
 
 
-
 class CalculateRatingProject:
 
     def __init__(self, project):
@@ -70,7 +76,6 @@ class CalculateRatingProject:
         self._rating_promotion = 1.0
         self._rating_overall = None
         self._count_specialists = 0
-
 
     def get_rating_followers(self):
         self._rating_followers = (self.project.count_months / 12) + \
@@ -90,9 +95,9 @@ class CalculateRatingProject:
         )
         result = db.session.execute(query.params(project_id=project_id))
         self._count_specialists = result.scalar()
-        if self._count_specialists == None: self._count_specialists = 3
+        if self._count_specialists is None:
+            self._count_specialists = 3
         self._rating_specialists = 15000.0 / (self.project.salary_all_professionals // self._count_specialists)
-
 
     def get_rating_promotion(self):
         pass

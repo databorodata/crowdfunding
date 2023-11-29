@@ -20,8 +20,6 @@ class StagingConfig(Config):
     DEBUG = True
 
 
-
-
 class DevelopmentConfig(Config):
     DEVELOPMENT = True
     DEBUG = True

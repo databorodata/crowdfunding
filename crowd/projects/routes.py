@@ -6,12 +6,10 @@ from crowd.projects.form import NewProject, JoinForm
 from crowd.projects.calculate import CalculateProject, CalculateRatingProject
 from flask import flash
 
-
-
 projects = Blueprint('projects', __name__)
 
-def get_data_project(form, user_id, project):
 
+def get_data_project(form, user_id, project):
     project.name_blog = form.name_blog.data
     project.idea_blog = form.idea_blog.data
 
@@ -24,17 +22,16 @@ def get_data_project(form, user_id, project):
     project.placement_sites = form.placement_sites.data
     project.count_months = form.count_months.data
 
-
     project.copyrighter = form.copyrighter.data or 0
-    project.salary_copyrighter = form.salary_copyrighter.data  or 0
-    project.videographer = form.videographer.data  or 0
-    project.salary_videographer = form.salary_videographer.data  or 0
-    project.director = form.director.data  or 0
-    project.salary_director = form.salary_director.data  or 0
+    project.salary_copyrighter = form.salary_copyrighter.data or 0
+    project.videographer = form.videographer.data or 0
+    project.salary_videographer = form.salary_videographer.data or 0
+    project.director = form.director.data or 0
+    project.salary_director = form.salary_director.data or 0
     project.scriptwriter = form.scriptwriter.data or 0
-    project.salary_scriptwriter = form.salary_scriptwriter.data  or 0
+    project.salary_scriptwriter = form.salary_scriptwriter.data or 0
     project.graphicdesigner = form.graphicdesigner.data or 0
-    project.salary_graphicdesigner = form.salary_graphicdesigner.data  or 0
+    project.salary_graphicdesigner = form.salary_graphicdesigner.data or 0
     project.producer = form.producer.data or 0
     project.salary_producer = form.salary_producer.data or 0
     project.soundengineer = form.soundengineer.data or 0
@@ -60,9 +57,11 @@ def get_data_project(form, user_id, project):
     project.amount_donate = current_project._amount_donate
     project.amount_order_product = current_project._amount_order_product
 
-    if not project.author_id: project.author_id = user_id
+    if not project.author_id:
+        project.author_id = user_id
 
     return project
+
 
 def get_data_rating_project(project):
     current_calculate = CalculateRatingProject(project)
@@ -82,17 +81,24 @@ def create_project():
     form = NewProject()
     user_id = current_user.get_id()
     if form.validate_on_submit():
-        project = get_data_project(form, user_id, Project())
-        db.session.add(project)
-        db.session.commit()
-        rating = get_data_rating_project(project)
-        db.session.add(rating)
-        db.session.commit()
-        return redirect(url_for('users.dashboard'))
+        try:
+            project = get_data_project(form, user_id, Project())
+            db.session.add(project)
+
+            rating = get_data_rating_project(project)
+            db.session.add(rating)
+
+            db.session.commit()
+
+            return redirect(url_for('users.dashboard'))
+        except Exception as e:
+            db.session.rollback()  # Если произойдет ошибка, откатываем транзакцию
+            print(f"Error: {e}")
     else:
         print(form.errors)
 
     return render_template('newproject.html', form=form)
+
 
 @projects.route("/editproject", methods=["GET", "POST"])
 @login_required
@@ -102,17 +108,18 @@ def edit_project():
     form = NewProject(obj=project)
 
     if form.validate_on_submit():
-        project = Project(author_id=user_id)
-        db.session.add(project)
-        form.populate_obj(project)
-        db.session.commit()
-
-        print(project.id)
-        rating = get_data_rating_project(project)
-        db.session.add(rating)
-        db.session.commit()
-        flash('Данные проекта успешно обновлены!', 'success')
-        return redirect(url_for('users.dashboard'))
+        try:
+            project = Project(author_id=user_id)
+            db.session.add(project)
+            form.populate_obj(project)
+            rating = get_data_rating_project(project)
+            db.session.add(rating)
+            db.session.commit()
+            flash('Данные проекта успешно обновлены!', 'success')
+            return redirect(url_for('users.dashboard'))
+        except Exception as e:
+            db.session.rollback()  # Если произойдет ошибка, откатываем транзакцию
+            print(f"Error: {e}")
     else:
         print(form.errors)
 
@@ -121,14 +128,15 @@ def edit_project():
 
 @projects.route("/projects/<id_>", methods=["GET", "POST"])
 def get_project_by_id(id_):
-
     join = JoinForm()
     project = Project.query.filter_by(id=id_).first()
 
     current_user_id = current_user.get_id()
     user = User.query.filter_by(id=current_user_id).first()
-    if user and user.profession: user_profession = user.profession[0]
-    else: user_profession = None
+    if user and user.profession:
+        user_profession = user.profession[0]
+    else:
+        user_profession = None
 
     join_buttons = {
         'join_copyrighter': 'copyrighter',
@@ -142,8 +150,7 @@ def get_project_by_id(id_):
     if user and user.participation_projects:
         for user_project in user.participation_projects:
             if user_project == project.id:
-                pass # дописать логику потом
-
+                pass  # дописать логику потом
 
     if join.validate_on_submit():
         for button, field in join_buttons.items():
@@ -155,7 +162,8 @@ def get_project_by_id(id_):
 
         db.session.commit()
 
-    return render_template('project_by_id.html',
-                           project=project,
-                           join=join,
-                           user_profession=user_profession)
+    return render_template(
+        'project_by_id.html',
+        project=project,
+        join=join,
+        user_profession=user_profession)
