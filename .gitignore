@@ -6,5 +6,7 @@ crowd/__pycache__/
 alembic/versions/__pycache__/
 alembic/__pycache__/
 crowd/projects/__pycache__/
-crowd/main/__pycache__/
-crowd/manage
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
